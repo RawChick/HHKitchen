@@ -1,8 +1,8 @@
 package businesslogic;
 
-import java.sql.Time;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import datastorage.EmployeeDAO;
 import datastorage.OrderDAO;
@@ -39,7 +39,16 @@ public class OrderManager {
 	}
 	
 	public void retrieveOrders() {
-		orders = orderDAO.retrieveOrders();		
+		Timer timer = new Timer();
+		
+		orders = orderDAO.retrieveOrders();
+		timer.scheduleAtFixedRate(new TimerTask() {
+			  @Override
+			  public void run() {
+				  orders = orderDAO.retrieveOrders();		
+			  }
+			}, 10*1000, 10*1000);
+		
 	}
 	
 	public void retrieveProducts() {
@@ -64,14 +73,20 @@ public class OrderManager {
 		return result;
 	}
 	
-	public void readyOrder(int orderNr) {
+	public boolean readyOrder(int orderNr) {
+		boolean result = false;
 		for(Order order: orders) {
 			if(order.getOrderNr() == orderNr) {
+				result = orderDAO.updateStatus(3, orderNr);
+				
+				if(result == true){
 				order.setStatus(3);
+				}
 				
 				System.out.println("Ordernr: "+order.getOrderNr()+", status: "+order.getStatus());
 			}
 		}
+		return result;
 	}
 	
 	public ArrayList<Order> getOrders() {		
@@ -123,18 +138,6 @@ public class OrderManager {
 		
 		for(Product p: products) {
 			if(p.getProductNr() == productNr) {
-				product = p;
-			}
-		}
-		
-		return product;
-	}
-	
-	public Product searchProduct(String productName) {
-		Product product = null;
-		
-		for(Product p: products) {
-			if(p.getName() == productName) {
 				product = p;
 			}
 		}

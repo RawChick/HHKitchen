@@ -1,15 +1,34 @@
 package presentation;
 
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.TimerTask;
 
-import javax.swing.*;
-import javax.swing.event.*;
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.DefaultListModel;
+import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
+import javax.swing.ListSelectionModel;
 
+import java.util.Timer;
+
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+
+import businesslogic.OrderManager;
 import domain.Order;
 import domain.Product;
-import businesslogic.OrderManager;
 
 public class KitchenGUI extends JPanel {
 	private OrderManager manager;
@@ -63,6 +82,7 @@ public class KitchenGUI extends JPanel {
 		manager.retrieveOrders();
 		manager.retrieveProducts();
 		
+		Timer timer = new Timer();
 		orderOverview.setLayout(new BorderLayout(10, 10));
 		orderOverview.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 		
@@ -77,6 +97,8 @@ public class KitchenGUI extends JPanel {
 		
 		westNorth.setLayout(new BoxLayout(westNorth, BoxLayout.PAGE_AXIS));
 		westCenter.setLayout(new BoxLayout(westCenter, BoxLayout.Y_AXIS));
+	
+		
 		
 		acceptOrder = new JButton("Accepteren");
 		acceptOrder.addActionListener(acceptActionListener);
@@ -85,6 +107,8 @@ public class KitchenGUI extends JPanel {
 	
 		ready = new JButton("Gereed");
 		ready.addActionListener(readyActionListener);
+	
+		
 		setButtonEnabled();
 		
 		newOrderList.setFixedCellHeight(25);
@@ -101,8 +125,19 @@ public class KitchenGUI extends JPanel {
 		acceptedOrderList.setLayoutOrientation(JList.VERTICAL);
 		acceptedOrderList.setVisibleRowCount(5);
 		acceptedOrderList.addListSelectionListener(acceptedOrderSelectionListener);
+		mealList.addListSelectionListener(mealListSelectionListener);
 		
 		fillLists();
+		
+	timer.scheduleAtFixedRate(new TimerTask() {
+			  @Override
+			  public void run() {
+			    fillLists();
+			    System.out.println("Timer Reset");
+			  }
+			}, 10*1000, 10*1000);
+
+		
 		
 		westNorth.add(new JLabel("Nieuw:"));
 		westNorth.add(newOrderPane);
@@ -137,14 +172,12 @@ public class KitchenGUI extends JPanel {
 		}
 	}
 	
-	
 	public void createMealManaging(JComponent mealManaging) {
 		
 		
 		mealManaging.setLayout(new BorderLayout(10, 10));
 		mealManaging.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-			
-		 JScrollPane scrollableList = new JScrollPane(managingMealList);
+
 		
 		JPanel south = new JPanel();
 		south.setLayout(new BorderLayout(10, 10));
@@ -155,6 +188,8 @@ public class KitchenGUI extends JPanel {
 		changeMeal.addActionListener(changeMealActionListener);
 		deleteMeal = new JButton("Verwijderen");
 		deleteMeal.addActionListener(deleteMealActionListener);
+		
+		setButtonEnabled();
 	
 		//Provide minimum sizes for the two components in the split pane
 		Dimension minimumSize = new Dimension(100, 50);
@@ -164,8 +199,8 @@ public class KitchenGUI extends JPanel {
 		managingMealList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 		managingMealList.setLayoutOrientation(JList.VERTICAL);
 		managingMealList.setVisibleRowCount(-1);
-		//managingMealList.addListSelectionListener(selectionListener);
-		
+		managingMealList.addListSelectionListener(managingMealListSelectionListener);
+		fillProductLists();
 				
 		
 		south.add(newMeal, BorderLayout.CENTER);
@@ -175,33 +210,67 @@ public class KitchenGUI extends JPanel {
 		
 		
 		mealManaging.add(south, BorderLayout.SOUTH);
-		mealManaging.add(scrollableList, BorderLayout.CENTER);	
+		mealManaging.add(managingMealPane, BorderLayout.CENTER);	
+	}
+	
+	public void fillProductLists() {
+		managingMealListModel.clear();
+		
+		ArrayList<Product> products = manager.getProducts();
+		
+		for(Product product: products) {
+				managingMealListModel.addElement(product.getProductNr() +" "+product.getName());
+			
+	}
 	}
 	
 	public void setButtonEnabled() {
 		acceptOrder.setEnabled(false);
 		specificationMeal.setEnabled(false);
 		ready.setEnabled(false);
+		//changeMeal.setEnabled(false);
+		//deleteMeal.setEnabled(false);
+		
+		if(!mealList.isSelectionEmpty()){
+			specificationMeal.setEnabled(true);
+		}
 		
 		if(!newOrderList.isSelectionEmpty()) {
+			
 			String selectedOrder = (String) newOrderList.getSelectedValue();
 			String nr = selectedOrder.substring(selectedOrder.lastIndexOf(' ') + 1);
 			
 			int orderNr = Integer.parseInt(nr);
 			
-			specificationMeal.setEnabled(true);
 			if((manager.searchOrder(orderNr)).getStatus() == 1) {
 				acceptOrder.setEnabled(true);	
-			} else if((manager.searchOrder(orderNr)).getStatus() == 1) {
-				ready.setEnabled(true);
-			}
+			} 
 		}
+		
+		if(!acceptedOrderList.isSelectionEmpty()){
+			
+			String selectedOrder = (String) acceptedOrderList.getSelectedValue();
+			String nr = selectedOrder.substring(selectedOrder.lastIndexOf(' ') + 1);
+			
+			int orderNr = Integer.parseInt(nr);
+			
+			if((manager.searchOrder(orderNr)).getStatus() == 2) {
+				ready.setEnabled(true);	
+			} 
+		}
+	
+		if(!managingMealList.isSelectionEmpty()){
+			changeMeal.setEnabled(true);
+			deleteMeal.setEnabled(true);
+		}
+		
 	}
 	
 	ListSelectionListener newOrderSelectionListener = new ListSelectionListener() {
 		public void valueChanged(ListSelectionEvent e) {
 			if (e.getValueIsAdjusting() == false) {
 				mealListModel.clear();
+				acceptedOrderList.clearSelection();
 				
 				String selectedOrder = (String) newOrderList.getSelectedValue();
 				
@@ -213,7 +282,7 @@ public class KitchenGUI extends JPanel {
 					ArrayList<Product> orderProducts = manager.getProducts(orderNr);
 					
 					for(Product product: orderProducts) {
-						mealListModel.addElement(product.getName());
+						mealListModel.addElement(product.getProductNr() +" "+product.getName());
 					}
 				}
 			}
@@ -222,10 +291,18 @@ public class KitchenGUI extends JPanel {
 		}
 	};
 	
+	ListSelectionListener mealListSelectionListener = new ListSelectionListener() {
+		public void valueChanged(ListSelectionEvent e) {
+			setButtonEnabled();
+		}
+	};
+	
+	
 	ListSelectionListener acceptedOrderSelectionListener = new ListSelectionListener() {
 		public void valueChanged(ListSelectionEvent e) {
 			if (e.getValueIsAdjusting() == false) {
 				mealListModel.clear();
+				newOrderList.clearSelection();
 				
 				String selectedOrder = (String) acceptedOrderList.getSelectedValue();
 				
@@ -237,7 +314,7 @@ public class KitchenGUI extends JPanel {
 					ArrayList<Product> orderProducts = manager.getProducts(orderNr);
 					
 					for(Product product: orderProducts) {
-						mealListModel.addElement(product.getName());
+						mealListModel.addElement(product.getProductNr()+" "+product.getName());
 					}
 				}
 			}
@@ -246,6 +323,16 @@ public class KitchenGUI extends JPanel {
 		}
 	};
 	
+	ListSelectionListener managingMealListSelectionListener = new ListSelectionListener() {
+		public void valueChanged(ListSelectionEvent e) {
+			if (e.getValueIsAdjusting() == false) {
+			
+			setButtonEnabled();
+		}
+		}
+	};
+	
+	
 	ActionListener acceptActionListener = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 			if(!newOrderList.isSelectionEmpty()) {
@@ -253,7 +340,6 @@ public class KitchenGUI extends JPanel {
 				String nr = selectedOrder.substring(selectedOrder.lastIndexOf(' ') + 1);
 				
 				int orderNr = Integer.parseInt(nr);
-				System.out.println(orderNr);
 				boolean result = manager.acceptOrder(orderNr);
 				
 				if(result == true) {
@@ -268,13 +354,18 @@ public class KitchenGUI extends JPanel {
 	
 	ActionListener readyActionListener = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
-			if(!newOrderList.isSelectionEmpty()) {
-				String selectedOrder = (String) newOrderList.getSelectedValue();
+			if(!acceptedOrderList.isSelectionEmpty()) {
+				String selectedOrder = (String) acceptedOrderList.getSelectedValue();
 				String nr = selectedOrder.substring(selectedOrder.lastIndexOf(' ') + 1);
 				
 				int orderNr = Integer.parseInt(nr);
-				System.out.println(orderNr);
-				manager.readyOrder(orderNr);
+							
+				boolean result = manager.readyOrder(orderNr);
+				
+				if(result == true) {
+					acceptedOrderList.clearSelection();
+					fillLists();
+				}
 				
 				setButtonEnabled();
 			}
@@ -285,9 +376,11 @@ public class KitchenGUI extends JPanel {
 		public void actionPerformed(ActionEvent e) {
 			if(!mealList.isSelectionEmpty()) {
 				String selectedMeal = (String) mealList.getSelectedValue();
-				String productName = selectedMeal.substring(selectedMeal.lastIndexOf(' ') + 1);
+				String nr = selectedMeal.substring(0, selectedMeal.indexOf(" "));
+				int productNr = Integer.parseInt(nr);
 				
-				specificationMenu(productName);
+			
+				specificationMenu(productNr);
 			}
 		}
 		
@@ -295,40 +388,47 @@ public class KitchenGUI extends JPanel {
 	
 	ActionListener newMealActionListener = new ActionListener(){
 	public void actionPerformed(ActionEvent e){
-		if(!mealList.isSelectionEmpty()) {
-			String selectedMeal = (String) mealList.getSelectedValue();
-			String productName = selectedMeal.substring(selectedMeal.lastIndexOf(' ') + 1);
+		
 			
-			newMealMenu(productName);
-		}
+			newMealMenu();
+		
 	}
 	};
 	
 	ActionListener changeMealActionListener = new ActionListener(){
 		public void actionPerformed(ActionEvent e){
-			if(!mealList.isSelectionEmpty()) {
-				String selectedMeal = (String) mealList.getSelectedValue();
-				String productName = selectedMeal.substring(selectedMeal.lastIndexOf(' ') + 1);
+			if(!managingMealList.isSelectionEmpty()) {
+				String selectedMeal = (String)managingMealList.getSelectedValue();
+				String nr = selectedMeal.substring(0, selectedMeal.indexOf(" "));
+				int productNr = Integer.parseInt(nr);
 				
-				changeMealMenu(productName);
+				changeMealMenu(productNr);
 			}
 		}
 		};
 		
 		ActionListener deleteMealActionListener = new ActionListener(){
 			public void actionPerformed(ActionEvent e){
+				if(!managingMealList.isSelectionEmpty()) {
+						
+				String selectedMeal = (String)managingMealList.getSelectedValue();
+				String nr = selectedMeal.substring(0, selectedMeal.indexOf(" "));
+				int productNr = Integer.parseInt(nr);
+				System.out.println(productNr);
 				
 			}
-			};
+				fillProductLists();
+		}
+		};
 	
 	
-	public void specificationMenu(String productName) {
+	public void specificationMenu(int productNr) {
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 		
 		frame.getContentPane().removeAll();
 		frame.setTitle("Gerechtspecificaties");
 				
-		JPanel paneel = new SpecificationGUI(manager, frame, productName);
+		JPanel paneel = new SpecificationGUI(manager, frame, productNr);
 		
 		frame.setContentPane(paneel);
 		frame.setVisible(true);
@@ -336,13 +436,13 @@ public class KitchenGUI extends JPanel {
 		frame.repaint();		
 	}
 	
-	public void newMealMenu(String productName) {
+	public void newMealMenu() {
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 				
 				frame.getContentPane().removeAll();
 				frame.setTitle("Gerecht toevoegen");
 						
-				JPanel paneel = new SpecificationGUI(manager, frame, productName);
+				JPanel paneel = new NewMealGUI(manager, frame);
 				
 				frame.setContentPane(paneel);
 				frame.setVisible(true);
@@ -352,13 +452,13 @@ public class KitchenGUI extends JPanel {
 	
 	}
 	
-	public void changeMealMenu(String productName) {
+	public void changeMealMenu(int productNr) {
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 				
 				frame.getContentPane().removeAll();
 				frame.setTitle("Gerecht wijzigen");
 						
-				JPanel paneel = new SpecificationGUI(manager, frame, productName);
+				JPanel paneel = new ChangeMealGUI(manager, frame, productNr);
 				
 				frame.setContentPane(paneel);
 				frame.setVisible(true);

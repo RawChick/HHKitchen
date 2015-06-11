@@ -21,14 +21,14 @@ public class SpecificationGUI extends JPanel{
 	private OrderManager manager;
 	private JFrame frame;
 	private JButton backButton;
-	private String productName;
+	private int productNr;
 	private JLabel name, ingredient, time, nameRight, timeRight;
 	
 	
-	public SpecificationGUI(OrderManager manager, JFrame frame, String productName) {
+	public SpecificationGUI(OrderManager manager, JFrame frame, int productNr) {
 		this.manager = manager;
 		this.frame = frame;
-		this.productName = productName;
+		this.productNr = productNr;
 		
 		createSpecificationGUI();
 	}
@@ -60,12 +60,12 @@ Object[][] data = {
 		JPanel innersouth = new JPanel();
 		JPanel southRight = new JPanel();
 		
-		Product product = manager.searchProduct(productName);
+		Product product = manager.searchProduct(productNr);
 		long prepTime = product.getPreparationTime();
 		timeRight = new JLabel(prepTime + " minuten");
 		
 		name = new JLabel("Gerechtnaam:");
-		nameRight = new JLabel(productName);
+		nameRight = new JLabel(product.getName());
 		ingredient = new JLabel("Ingrediënten:");
 		time = new JLabel("Bereidingstijd:");
 		
