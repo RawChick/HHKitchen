@@ -2,6 +2,7 @@ package presentation;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -39,11 +40,7 @@ public class SpecificationGUI extends JPanel{
 		String[] columnNames = {"Ingrediënt",
         "Hoeveelheid", "Eenheid"};
 Object[][] data = {
-	    {"Tomaat", 2,"Schijfjes" },
-	    {"Sla", 20, "Gram"},
-	    {"Kaas", 1, "Plakje"},
-	    {"Ham", 2, "Plakjes"},
-	    {"Komkommer", 4 , "Schijfjes"}
+	    {"Tomaat", 2,"Schijfjes" }
 	};
 
 
@@ -55,10 +52,8 @@ Object[][] data = {
 		
 		JPanel center = new JPanel();
 		JPanel south = new JPanel();
-		JPanel productOverview = new JPanel();
+		JPanel tablepanel = new JPanel();
 		JPanel west = new JPanel();
-		JPanel innersouth = new JPanel();
-		JPanel southRight = new JPanel();
 		
 		Product product = manager.searchProduct(productNr);
 		long prepTime = product.getPreparationTime();
@@ -73,41 +68,26 @@ Object[][] data = {
 		backButton = new JButton("Terug");
 		backButton.addActionListener(buttonActionListener);
 		
-		west.setLayout(new BorderLayout(10,10));
-		
-		productOverview.setLayout(new BorderLayout(50,118));
-		productOverview.setBorder(BorderFactory.createEmptyBorder(0, 40, 0, 20));
-		
-		innersouth.setLayout(new BorderLayout(10,10));
-		
-		south.setLayout(new BorderLayout(10, 40));
-		
-		southRight.setLayout(new BorderLayout(10, 10));
-		southRight.setBorder(BorderFactory.createEmptyBorder(0, 0, 35, 0));
-		
-		center.setLayout(new BorderLayout(50, 0));
 			
+		south.setLayout(new BorderLayout(10, 10));
+		center.setLayout(new GridLayout(3,1));
+		west.setLayout(new GridLayout(3,1));
+		tablepanel.setLayout(new BorderLayout(10,10));
+		
+		west.add(name);
+		west.add(ingredient);
+		west.add(time);
+		south.add(backButton, BorderLayout.EAST);
+		tablepanel.add(table.getTableHeader(), BorderLayout.BEFORE_FIRST_LINE);
+		tablepanel.add(table, BorderLayout.CENTER);
+		center.add(nameRight);
+		center.add(tablepanel);
+		center.add(timeRight);
 		
 		add(west, BorderLayout.WEST);
-		add(productOverview, BorderLayout.CENTER);
+		add(center, BorderLayout.CENTER);
+		add(south, BorderLayout.SOUTH);
 		
-		productOverview.add(center, BorderLayout.CENTER);
-		productOverview.add(southRight, BorderLayout.SOUTH);
-		productOverview.add(nameRight, BorderLayout.NORTH);
-		
-		south.add(innersouth, BorderLayout.SOUTH);
-		
-		innersouth.add(time, BorderLayout.NORTH);
-		innersouth.add(backButton, BorderLayout.SOUTH);
-		
-		west.add(south, BorderLayout.SOUTH);
-		west.add(name, BorderLayout.NORTH);
-		west.add(ingredient, BorderLayout.CENTER);
-		
-		southRight.add(timeRight, BorderLayout.NORTH);
-		
-		center.add(table.getTableHeader(), BorderLayout.BEFORE_FIRST_LINE);
-		center.add(table, BorderLayout.CENTER);
 	}
 	
 	

@@ -401,7 +401,7 @@ public class KitchenGUI extends JPanel {
 				String selectedMeal = (String)managingMealList.getSelectedValue();
 				String nr = selectedMeal.substring(0, selectedMeal.indexOf(" "));
 				int productNr = Integer.parseInt(nr);
-				
+			
 				changeMealMenu(productNr);
 			}
 		}
