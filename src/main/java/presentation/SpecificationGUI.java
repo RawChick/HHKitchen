@@ -6,6 +6,7 @@ import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -13,8 +14,10 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 import domain.Product;
+import domain.ProductIngredients;
 import businesslogic.OrderManager;
 
 
@@ -37,18 +40,24 @@ public class SpecificationGUI extends JPanel{
 		setLayout(new BorderLayout(10, 10));
 		setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 		
-		String[] columnNames = {"Ingrediënt",
-        "Hoeveelheid", "Eenheid"};
-Object[][] data = {
-	    {"Tomaat", 2,"Schijfjes" }
-	};
-
-
+		String columnNames[] = {"Ingredient", "Hoeveelheid", "Eenheid"};
+		DefaultTableModel tableModel = new DefaultTableModel(columnNames, 0);
+		JTable table = new JTable(tableModel);
 		
+		ArrayList<ProductIngredients> productIngredients = manager.retrieveIngredients(productNr);
 		
-		JTable table = new JTable(data, columnNames);
+		for(ProductIngredients productIngredient: productIngredients) {
+			String ingredientName = productIngredient.getIngredientName();
+			int ingredientQuantity = productIngredient.getQuantity();
+			String ingredientUnit = productIngredient.getUnit();
+			
+			Object[] data = {ingredientName, ingredientQuantity, ingredientUnit};
+			
+			tableModel.addRow(data);
+		}
+		
 		Dimension preferredSize = new Dimension(100, 60);
-		table.setPreferredSize(preferredSize);;
+		table.setPreferredSize(preferredSize);
 		
 		JPanel center = new JPanel();
 		JPanel south = new JPanel();

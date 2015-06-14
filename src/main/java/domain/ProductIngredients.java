@@ -2,34 +2,49 @@ package domain;
 
 public class ProductIngredients {
 
-	private Product product;
-	private Ingredient ingredient;
-	private int amount;
+	private int ingredientNr;
+	private String ingredientName;
+	private int productNr;
+	private int quantity;
 	private String unit;
 
-	public ProductIngredients(Product product, Ingredient ingredient, int amount, String unit){
-
-		this.product = product;
-		this.ingredient = ingredient;
-		this.amount = amount;
+	public ProductIngredients(int ingredientNr, String ingredientName, int productNr, int quantity, String unit){
+		this.productNr = productNr;
+		this.ingredientName = ingredientName;
+		this.ingredientNr = ingredientNr;
+		this.quantity = quantity;
 		this.unit = unit;
-	
 	}
 	
 	public int getIngredientNr(){
-		return ingredient.getIngredientNr();
+		return ingredientNr;
 	}
 	
-	
-	public int getAmount(){
-		return amount;
+	public String getIngredientName() {
+		return ingredientName;
 	}
 	
-	public String getUnit(){
+	public int getProductNr(){
+		return productNr;
+	}
+	
+	public int getQuantity() {
+		return quantity;
+	}
+	
+	public String getUnit() {
 		return unit;
 	}
 	
-
+	public void setName(String name) {
+		this.ingredientName = name;
+	}
 	
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
 	
+	public void setUnit(String unit) {
+		this.unit = unit;
+	}
 }

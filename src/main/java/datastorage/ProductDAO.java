@@ -45,16 +45,6 @@ public class ProductDAO {
 		return products;
 	}
 
-	/**
-	 * Removes the given member from the database.
-	 * 
-	 * @param memberToBeRemoved
-	 *            an object of the Member class representing the member to be
-	 *            removed.
-	 * 
-	 * @return true if execution of the SQL-statement was successful, false
-	 *         otherwise.
-	 */
 	public boolean removeProduct(Product productToBeRemoved) {
 		boolean result = false;
 
@@ -76,4 +66,20 @@ public class ProductDAO {
 		return result;
 	}
 
+	public boolean updateProduct(int productNr, String name, long price, long prepTime) {
+		boolean result = false;
+		
+		DatabaseConnection connection = new DatabaseConnection();
+		if(connection.openConnection()) {
+			result = connection.executeSQLUpdateStatement("UPDATE dish_menu_item SET "
+					+ "price = "+price+", "
+					+ "name = '"+name+"', "
+					+ "cooking_minutes = "+prepTime+" "
+					+ "WHERE ID = "+productNr+";");
+			
+			connection.closeConnection();
+		}		
+		
+		return result;
+	}
 }

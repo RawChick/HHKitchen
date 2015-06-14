@@ -4,10 +4,14 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import javax.swing.JTable;
+
 import datastorage.EmployeeDAO;
+import datastorage.IngredientDAO;
 import datastorage.OrderDAO;
 import datastorage.OrderRowDAO;
 import datastorage.ProductDAO;
+import datastorage.ProductIngredientsDAO;
 import domain.Ingredient;
 import domain.Order;
 import domain.OrderRow;
@@ -16,39 +20,64 @@ import domain.ProductIngredients;
 
 public class OrderManager {
 	private ArrayList<Product> products;
-	private ArrayList<Order> orders;
+	private ArrayList<Order> orders, newOrders;
 	private ArrayList<OrderRow> orderRows;
 	private ArrayList<Ingredient> ingredients;
-	private ArrayList<ProductIngredients> productingredients;
+	private ArrayList<ProductIngredients> productIngredients;
 	private OrderDAO orderDAO;
 	private ProductDAO productDAO;
 	private EmployeeDAO employeeDAO;
 	private OrderRowDAO orderRowDAO;
+	private ProductIngredientsDAO productIngredientsDAO;
 	
 	public OrderManager() {
 		products = new ArrayList<Product>();
 		orders = new ArrayList<Order>();
+		newOrders = new ArrayList<Order>();
 		orderRows = new ArrayList<OrderRow>();
 		ingredients = new ArrayList<Ingredient>();
-		productingredients = new ArrayList<ProductIngredients>();
+		productIngredients = new ArrayList<ProductIngredients>();
 		
 		employeeDAO = new EmployeeDAO();
 		orderDAO = new OrderDAO();
 		productDAO = new ProductDAO();
 		orderRowDAO = new OrderRowDAO();
+		productIngredientsDAO = new ProductIngredientsDAO();
 	}
 	
 	public void retrieveOrders() {
-		Timer timer = new Timer();
-		
 		orders = orderDAO.retrieveOrders();
-		timer.scheduleAtFixedRate(new TimerTask() {
-			  @Override
-			  public void run() {
-				  orders = orderDAO.retrieveOrders();		
-			  }
-			}, 10*1000, 10*1000);
+	}
+	
+	public void retrieveNewOrders() {
+		newOrders = orderDAO.retrieveNewOrders(orders);
 		
+		for(Order order: newOrders) {
+			orders.add(order);
+		}
+	}
+	
+	public ArrayList<ProductIngredients> retrieveIngredients(int productNr) {
+		ArrayList<ProductIngredients> rowIngredients = new ArrayList<ProductIngredients>();
+		boolean foundProductIngredients = false;
+		
+		for(ProductIngredients productIngredient: productIngredients) {
+			if(productIngredient.getProductNr() == productNr) {
+				rowIngredients.add(productIngredient);
+				
+				foundProductIngredients = true;
+			}
+		}
+		
+		if(foundProductIngredients == false) {
+			rowIngredients = productIngredientsDAO.retrieveIngredients(productNr);
+			
+			for(ProductIngredients pI: rowIngredients) {
+				productIngredients.add(pI);
+			}
+		}
+		
+		return rowIngredients;		
 	}
 	
 	public void retrieveProducts() {
@@ -80,7 +109,7 @@ public class OrderManager {
 				result = orderDAO.updateStatus(3, orderNr);
 				
 				if(result == true){
-				order.setStatus(3);
+					order.setStatus(3);
 				}
 				
 				System.out.println("Ordernr: "+order.getOrderNr()+", status: "+order.getStatus());
@@ -91,6 +120,10 @@ public class OrderManager {
 	
 	public ArrayList<Order> getOrders() {		
 		return orders;
+	}
+	
+	public ArrayList<Order> getNewOrders() {
+		return newOrders;
 	}
 	
 	public ArrayList<Product> getProducts() {
@@ -161,5 +194,36 @@ public class OrderManager {
 		boolean login = employeeDAO.findEmployee(employeeNumber);
 		
 		return login;
+	}
+	
+	public boolean updateProduct(int productNr, String name, long prepTime, long price) {
+		boolean result = productDAO.updateProduct(productNr, name, price, prepTime);
+		
+		if(result == true) {
+			for(Product p: products) {
+				if(p.getProductNr() == productNr) {
+					p.setName(name);
+					p.setPrepTime(prepTime);
+					p.setPrice(price);
+				}
+			}
+		}
+		
+		return result;
+	}
+	
+	public void updateIngredientSpecs(JTable table, int col, int row, int productNr) {
+		int ingredientNr = Integer.parseInt(table.getValueAt(row, 0).toString());
+		String name = (String) table.getValueAt(row, 1);        
+		int quantity = Integer.parseInt(table.getValueAt(row, 2).toString());
+		
+		productIngredientsDAO.updateIngredientSpecs(productNr, ingredientNr, name, quantity);
+		
+		for(ProductIngredients pI: productIngredients) {
+			if(pI.getIngredientNr() == ingredientNr) {
+				pI.setName(name);
+				pI.setQuantity(quantity);
+			}
+		}
 	}
 }

@@ -129,13 +129,12 @@ public class KitchenGUI extends JPanel {
 		
 		fillLists();
 		
-	timer.scheduleAtFixedRate(new TimerTask() {
-			  @Override
-			  public void run() {
-			    fillLists();
-			    System.out.println("Timer Reset");
-			  }
-			}, 10*1000, 10*1000);
+		timer.scheduleAtFixedRate(new TimerTask() {
+			@Override
+			public void run() {
+				addNewOrders();
+			}
+		}, 10*1000, 10*1000);
 
 		
 		
@@ -155,6 +154,15 @@ public class KitchenGUI extends JPanel {
 		orderOverview.add(west, BorderLayout.WEST);
 		orderOverview.add(mealPane, BorderLayout.CENTER);		
 		orderOverview.add(south, BorderLayout.SOUTH);
+	}
+	
+	public void addNewOrders() {
+		manager.retrieveNewOrders();
+		ArrayList<Order> orders = manager.getNewOrders();
+		
+		for(Order order: orders) {
+			newOrderListModel.addElement("Bestelnr: " + order.getOrderNr());
+		}
 	}
 	
 	public void fillLists() {
@@ -215,13 +223,13 @@ public class KitchenGUI extends JPanel {
 	
 	public void fillProductLists() {
 		managingMealListModel.clear();
-		
+
 		ArrayList<Product> products = manager.getProducts();
-		
-		for(Product product: products) {
-				managingMealListModel.addElement(product.getProductNr() +" "+product.getName());
-			
-	}
+
+		for (Product product : products) {
+			managingMealListModel.addElement(String.format("%02d", product.getProductNr()) + " - " + product.getName());
+
+		}
 	}
 	
 	public void setButtonEnabled() {
@@ -282,7 +290,7 @@ public class KitchenGUI extends JPanel {
 					ArrayList<Product> orderProducts = manager.getProducts(orderNr);
 					
 					for(Product product: orderProducts) {
-						mealListModel.addElement(product.getProductNr() +" "+product.getName());
+						mealListModel.addElement(String.format("%02d", product.getProductNr()) +" "+product.getName());
 					}
 				}
 			}
@@ -314,7 +322,7 @@ public class KitchenGUI extends JPanel {
 					ArrayList<Product> orderProducts = manager.getProducts(orderNr);
 					
 					for(Product product: orderProducts) {
-						mealListModel.addElement(product.getProductNr()+" "+product.getName());
+						mealListModel.addElement(String.format("%02d", product.getProductNr())+" "+product.getName());
 					}
 				}
 			}
@@ -386,40 +394,41 @@ public class KitchenGUI extends JPanel {
 		
 	};
 	
-	ActionListener newMealActionListener = new ActionListener(){
-	public void actionPerformed(ActionEvent e){
-		
-			
+	ActionListener newMealActionListener = new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+
 			newMealMenu();
-		
-	}
+
+		}
 	};
 	
-	ActionListener changeMealActionListener = new ActionListener(){
-		public void actionPerformed(ActionEvent e){
-			if(!managingMealList.isSelectionEmpty()) {
-				String selectedMeal = (String)managingMealList.getSelectedValue();
+	ActionListener changeMealActionListener = new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			if (!managingMealList.isSelectionEmpty()) {
+				String selectedMeal = (String) managingMealList.getSelectedValue();
 				String nr = selectedMeal.substring(0, selectedMeal.indexOf(" "));
 				int productNr = Integer.parseInt(nr);
-			
+
 				changeMealMenu(productNr);
 			}
 		}
-		};
+	};
 		
-		ActionListener deleteMealActionListener = new ActionListener(){
-			public void actionPerformed(ActionEvent e){
-				if(!managingMealList.isSelectionEmpty()) {
-						
-				String selectedMeal = (String)managingMealList.getSelectedValue();
-				String nr = selectedMeal.substring(0, selectedMeal.indexOf(" "));
+	ActionListener deleteMealActionListener = new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			if (!managingMealList.isSelectionEmpty()) {
+
+				String selectedMeal = (String) managingMealList
+						.getSelectedValue();
+				String nr = selectedMeal
+						.substring(0, selectedMeal.indexOf(" "));
 				int productNr = Integer.parseInt(nr);
 				System.out.println(productNr);
-				
+
 			}
-				fillProductLists();
+			fillProductLists();
 		}
-		};
+	};
 	
 	
 	public void specificationMenu(int productNr) {
@@ -454,18 +463,16 @@ public class KitchenGUI extends JPanel {
 	
 	public void changeMealMenu(int productNr) {
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-				
-				frame.getContentPane().removeAll();
-				frame.setTitle("Gerecht wijzigen");
-						
-				JPanel paneel = new ChangeMealGUI(manager, frame, productNr);
-				
-				frame.setContentPane(paneel);
-				frame.setVisible(true);
-				frame.validate();
-				frame.repaint();
-	
-				
+
+		frame.getContentPane().removeAll();
+		frame.setTitle("Gerecht wijzigen");
+
+		JPanel paneel = new ChangeMealGUI(manager, frame, productNr);
+
+		frame.setContentPane(paneel);
+		frame.setVisible(true);
+		frame.validate();
+		frame.repaint();
 	}
 				
 }

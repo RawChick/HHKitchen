@@ -13,7 +13,6 @@ public class Product {
 		this.preparationTime = preparationTime;
 	}
 	
-	
 	public long getPreparationTime(){
 		return preparationTime;
 	}
@@ -28,5 +27,17 @@ public class Product {
 	
 	public long getPrice() {
 		return price;
+	}
+	
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	public void setPrepTime(long prepTime) {
+		this.preparationTime = prepTime;
+	}
+	
+	public void setPrice(long price) {
+		this.price = price;
 	}
 }
