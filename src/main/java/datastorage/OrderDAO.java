@@ -59,7 +59,8 @@ public class OrderDAO {
 			// statement.
 			ResultSet resultset = connection
 					.executeSQLSelectStatement("SELECT * FROM dish_order WHERE status = 1");
-
+// System.out.println("Stap 1");
+			
 			if (resultset != null) {
 				try {
 					while (resultset.next()) {
@@ -72,7 +73,7 @@ public class OrderDAO {
 						/*date dateFromDb = resultset.getDate("date_placed");*/
 						
 						Order newOrder = new Order(tableIDFromDb, orderIDFromDb, statusFromDb);
-						
+				//		System.out.println("Stap 2: " + sameOrder);
 						for(Order order: orders) {
 							if(sameOrder == false) {
 								if(order.getOrderNr() != orderIDFromDb && order.getStatus() != 1) {
@@ -84,7 +85,9 @@ public class OrderDAO {
 						}
 						
 						if(sameOrder == false) {
+						System.out.println("Stap 3");
 							newOrders.add(newOrder);
+							
 						}
 					}
 				} catch (SQLException e) {

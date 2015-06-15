@@ -45,23 +45,23 @@ public class ProductDAO {
 		return products;
 	}
 
-	public boolean removeProduct(Product productToBeRemoved) {
+	public boolean removeProduct(int productNr) {
 		boolean result = false;
 
-		if (productToBeRemoved != null) {
+		//if (productToBeRemoved != null) {
 			// First open the database connection.
 			DatabaseConnection connection = new DatabaseConnection();
 			if (connection.openConnection()) {
 				// Execute the delete statement using the membership number to
 				// identify the member row.
-				result = connection.executeSQLUpdateStatement("DELETE FROM Product WHERE ProductNumber = "
-								+ productToBeRemoved.getProductNr() + ";");
+				result = connection.executeSQLUpdateStatement("DELETE FROM dish_menu_item WHERE ID = "
+								+ productNr + ";");
 
 				// Finished with the connection, so close it.
 				connection.closeConnection();
 			}
 			// else an error occurred leave 'member' to null.
-		}
+	
 
 		return result;
 	}
@@ -82,4 +82,19 @@ public class ProductDAO {
 		
 		return result;
 	}
+	
+	public boolean newProduct(String name, long price, int menuID, long prepTime) {
+		boolean result = false;
+		
+		DatabaseConnection connection = new DatabaseConnection();
+		if(connection.openConnection()) {
+		
+			
+		result = connection.executeSQLUpdateStatement("INSERT INTO `dish_menu_item`(`price`, `menu_ID`, `name`, `cooking_minutes`) VALUES ("+price+", "+menuID+", '"+name+"', "+prepTime+");");			
+			connection.closeConnection();
+		}		
+		
+		return result;
+	}
+	
 }

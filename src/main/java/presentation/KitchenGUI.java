@@ -133,6 +133,7 @@ public class KitchenGUI extends JPanel {
 			@Override
 			public void run() {
 				addNewOrders();
+
 			}
 		}, 10*1000, 10*1000);
 
@@ -161,6 +162,7 @@ public class KitchenGUI extends JPanel {
 		ArrayList<Order> orders = manager.getNewOrders();
 		
 		for(Order order: orders) {
+			System.out.println(order.getOrderNr());
 			newOrderListModel.addElement("Bestelnr: " + order.getOrderNr());
 		}
 	}
@@ -224,6 +226,7 @@ public class KitchenGUI extends JPanel {
 	public void fillProductLists() {
 		managingMealListModel.clear();
 
+		manager.retrieveProducts();
 		ArrayList<Product> products = manager.getProducts();
 
 		for (Product product : products) {
@@ -423,10 +426,11 @@ public class KitchenGUI extends JPanel {
 				String nr = selectedMeal
 						.substring(0, selectedMeal.indexOf(" "));
 				int productNr = Integer.parseInt(nr);
-				System.out.println(productNr);
-
+				manager.deleteProduct(productNr);
+				
+				fillProductLists();
 			}
-			fillProductLists();
+		
 		}
 	};
 	

@@ -154,15 +154,10 @@ public class ChangeMealGUI extends JPanel {
 
 	ActionListener buttonActionListener = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
-			Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-
-			frame.getContentPane().removeAll();
-			frame.setTitle("Keuken");
-			JPanel paneel = new KitchenGUI(manager, frame);
-			frame.setContentPane(paneel);
-			frame.validate();
-			frame.repaint();
-		}
+			createKitchenGUI();		
+			
+			System.out.println("Wijziging geannuleerd");
+			}
 	};
 	
 	ActionListener updateActionListener = new ActionListener() {
@@ -172,6 +167,8 @@ public class ChangeMealGUI extends JPanel {
 			long price = Long.parseLong(priceRightText.getText());
 			
 			manager.updateProduct(productNr, name, prepTime, price);
+		
+			createKitchenGUI();
 		}
 	};
 	
@@ -186,4 +183,15 @@ public class ChangeMealGUI extends JPanel {
 			}
 		}
 	};
+	
+	public void createKitchenGUI(){
+		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+
+		frame.getContentPane().removeAll();
+		frame.setTitle("Keuken");
+		JPanel paneel = new KitchenGUI(manager, frame);
+		frame.setContentPane(paneel);
+		frame.validate();
+		frame.repaint();
+	}
 }

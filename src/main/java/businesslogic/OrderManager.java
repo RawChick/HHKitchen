@@ -53,7 +53,7 @@ public class OrderManager {
 		newOrders = orderDAO.retrieveNewOrders(orders);
 		
 		for(Order order: newOrders) {
-			orders.add(order);
+			newOrders.add(order);
 		}
 	}
 	
@@ -125,6 +125,8 @@ public class OrderManager {
 	public ArrayList<Order> getNewOrders() {
 		return newOrders;
 	}
+	
+
 	
 	public ArrayList<Product> getProducts() {
 		return products;
@@ -207,8 +209,35 @@ public class OrderManager {
 					p.setPrice(price);
 				}
 			}
+			System.out.println("Product gewijzigd.");
 		}
 		
+		return result;
+	}
+	
+	public boolean newProduct(String name, long price, int menuID, long prepTime) {
+		boolean result = productDAO.newProduct(name, price, menuID, prepTime);
+		
+		if(result == true) {
+			for(Product p: products) {
+				
+					p.setName(name);
+					p.setPrepTime(prepTime);
+					p.setPrice(price);
+					
+			}
+			System.out.println("Product aangemaakt.");
+		}
+		
+		return result;
+	}
+	
+	public boolean deleteProduct(int productNr){
+		boolean result = productDAO.removeProduct(productNr);
+		
+		if(result == true){
+			System.out.println("Product verwijderd.");
+		}
 		return result;
 	}
 	
