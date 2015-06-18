@@ -169,7 +169,7 @@ public class KitchenGUI extends JPanel {
 			newOrderListModel.addElement("Bestelnr: " + order.getOrderNr());
 		}
 	}
-	
+	//
 	public void fillLists() {
 		newOrderListModel.clear();
 		acceptedOrderListModel.clear();
