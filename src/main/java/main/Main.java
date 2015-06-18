@@ -16,6 +16,7 @@ public class Main extends JFrame {
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 				
 		JFrame frame = new Main();
+	
         frame.setSize(200, 275);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setTitle("Inloggen");

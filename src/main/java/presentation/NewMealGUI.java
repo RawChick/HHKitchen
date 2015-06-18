@@ -32,17 +32,16 @@ public class NewMealGUI extends JPanel {
 	private JTextField nameRight, timeRight, priceRightText;
 	String columnNames[] = {"Nr", "Ingredient", "Hoeveelheid", "Eenheid"};
 	String[] menuItems = { "1 Voorgerechten", "2 Soepen", "3 Hoofdgerechten", "4 Nagerechten", "6 Erbij", "7 Salades", "8 Pizza" };
-	DefaultTableModel tableModel = new DefaultTableModel(columnNames, 0) {
-		@Override
-		public boolean isCellEditable(int row, int column) {
-			if(column == 0 || column == 3) {
-				return false;
-			} else {
-				return true;
-			}
-	    }
+	DefaultTableModel tableModel = new DefaultTableModel(columnNames, 5) {
+	//	@Override
+//		public boolean isCellEditable(int row, int column) {
+//			if(column == 0 || column == 3) {
+//				return false;
+//			} else {
+//				return true;
+//			}
+//	    }
 	};
-	
 	JTable table = new JTable(tableModel);
 	JComboBox menuList = new JComboBox(menuItems);
 	
@@ -152,9 +151,8 @@ north.add(menuList, BorderLayout.SOUTH);
 
 	ActionListener buttonActionListener = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
-			createKitchenGUI();		
 			
-			System.out.println("Geannuleerd");
+			System.out.println("Wijziging geannuleerd.");
 			}
 	};
 	
@@ -169,7 +167,6 @@ north.add(menuList, BorderLayout.SOUTH);
 			
 		manager.newProduct(name, price, menuID, prepTime);
 		
-		createKitchenGUI();
 			
 			
 		}
@@ -182,7 +179,7 @@ north.add(menuList, BorderLayout.SOUTH);
 				int col = table.getSelectedColumn();
 				int row = table.getSelectedRow();
 				
-				manager.updateIngredientSpecs(table, col, row, productNr);
+	//			manager.updateIngredientSpecs(table, col, row, productNr);
 			}
 		}
 	};
@@ -196,5 +193,6 @@ north.add(menuList, BorderLayout.SOUTH);
 		frame.setContentPane(paneel);
 		frame.validate();
 		frame.repaint();
+		
 	}
-}
+	}

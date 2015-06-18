@@ -1,9 +1,6 @@
 package businesslogic;
 
 import java.util.ArrayList;
-import java.util.Timer;
-import java.util.TimerTask;
-
 import javax.swing.JTable;
 
 import datastorage.EmployeeDAO;
@@ -106,10 +103,10 @@ public class OrderManager {
 		boolean result = false;
 		for(Order order: orders) {
 			if(order.getOrderNr() == orderNr) {
-				result = orderDAO.updateStatus(3, orderNr);
+				result = orderDAO.updateStatus(4, orderNr);
 				
 				if(result == true){
-					order.setStatus(3);
+					order.setStatus(4);
 				}
 				
 				System.out.println("Ordernr: "+order.getOrderNr()+", status: "+order.getStatus());

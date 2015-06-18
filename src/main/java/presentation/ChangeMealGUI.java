@@ -152,11 +152,16 @@ public class ChangeMealGUI extends JPanel {
 		add(south, BorderLayout.SOUTH);
 	}
 
+	public void upDateIngredients(){
+		
+	}
+	
+	
 	ActionListener buttonActionListener = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 			createKitchenGUI();		
 			
-			System.out.println("Wijziging geannuleerd");
+			System.out.println("Wijziging geannuleerd.");
 			}
 	};
 	
@@ -169,6 +174,7 @@ public class ChangeMealGUI extends JPanel {
 			manager.updateProduct(productNr, name, prepTime, price);
 		
 			createKitchenGUI();
+			
 		}
 	};
 	
@@ -180,6 +186,7 @@ public class ChangeMealGUI extends JPanel {
 				int row = table.getSelectedRow();
 				
 				manager.updateIngredientSpecs(table, col, row, productNr);
+				System.out.println(col + row);
 			}
 		}
 	};
@@ -189,9 +196,14 @@ public class ChangeMealGUI extends JPanel {
 
 		frame.getContentPane().removeAll();
 		frame.setTitle("Keuken");
+		
+		//Maakt steeds een nieuwe instantie aan als paneel wijzigt!
+		
 		JPanel paneel = new KitchenGUI(manager, frame);
 		frame.setContentPane(paneel);
 		frame.validate();
 		frame.repaint();
+		
+	
 	}
 }

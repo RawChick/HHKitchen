@@ -59,6 +59,8 @@ public class KitchenGUI extends JPanel {
 	}
 	
 	public void createKitchenGUI() {
+		
+		
 		setLayout(new BorderLayout(10, 10));
 		setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		
@@ -76,6 +78,7 @@ public class KitchenGUI extends JPanel {
 		tabbedPane.addTab("Gerechtenbeheer", mealManaging);
 		
 		add(tabbedPane);
+
 	}
 	
 	public void createOrderOverview(JComponent orderOverview) {
