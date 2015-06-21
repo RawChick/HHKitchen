@@ -23,6 +23,11 @@ import businesslogic.OrderManager;
 // Comment toegevoegd
 public class Main extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public static void main(String[] args) {
 		OrderManager manager = new OrderManager();
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();

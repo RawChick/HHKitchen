@@ -1,23 +1,29 @@
 package presentation;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
-import java.util.List;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.List;
 
-import javax.swing.*;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
-import javax.swing.table.DefaultTableModel;
+import javax.swing.BorderFactory;
+import javax.swing.DefaultListModel;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
 
-import domain.Ingredient;
 import businesslogic.OrderManager;
+import domain.Ingredient;
+
 
 /**
  * 
@@ -37,7 +43,6 @@ public class NewMealGUI extends JPanel {
 	private DefaultListModel ingredientListModel = new DefaultListModel();
 	private JList ingredientList = new JList(ingredientListModel);
 	private JScrollPane scrollPane = new JScrollPane(ingredientList);
-	private int productNr;
 	private JLabel name, description, time, price, category, panelTitle, ingredientTitle;
 	private JTextField nameRight, timeRight, priceRight, descriptionRight;
 	private String[] menuItems = { "1 Voorgerechten", "2 Soepen", "3 Hoofdgerechten", "4 Nagerechten", "6 Erbij", "7 Salades", "8 Pizza" };
@@ -160,7 +165,6 @@ public class NewMealGUI extends JPanel {
 		center.setLayout(new FlowLayout(FlowLayout.LEADING));
 		
 		int width = panel.getWidth();
-		int height = panel.getHeight();
 		
 		center.setSize(width, 100);
 		centerInner.setLayout(new GridLayout(size+1, 3, 5, 5));

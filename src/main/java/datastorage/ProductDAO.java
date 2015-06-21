@@ -2,13 +2,10 @@ package datastorage;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Time;
 import java.util.ArrayList;
 
-import com.mysql.jdbc.Statement;
-
-import domain.Order;
 import domain.Product;
+
 
 /**
  * 

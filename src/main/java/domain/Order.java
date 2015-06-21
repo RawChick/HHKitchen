@@ -1,6 +1,6 @@
 package domain;
 
-import java.util.*;
+
 
 /**
  * 
@@ -18,7 +18,7 @@ public class Order {
 	private int tableNr;
 	private int orderNr;
 	private int status;
-	private Date placed;
+	
 	
 	/**
 	 * 
