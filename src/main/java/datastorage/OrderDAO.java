@@ -9,7 +9,24 @@ import java.util.Date;
 import domain.Product;
 import domain.Order;
 
+/**
+ * 
+ * This class contains the methods to write and retrieve data to and from a database that have to do with the orders.
+ * 
+ * @author Wesley Heesters
+ * @author Renée Vroedsteijn
+ * @author Thomas Roovers
+ * @see businesslogic.OrderManager
+ * @version 1.0
+ * 
+ */
+
 public class OrderDAO {
+	
+	/**
+	 * 
+	 * @return This method retrieves the orders from the database.
+	 */
 	public ArrayList<Order> retrieveOrders() {
 		ArrayList<Order> orders = new ArrayList<Order>();
 
@@ -50,6 +67,11 @@ public class OrderDAO {
 		return orders;
 	}
 
+	/**
+	 * 
+	 * @param orders An arraylist with orders.
+	 * @return All new orders from the database.
+	 */
 	public ArrayList<Order> retrieveNewOrders(ArrayList<Order> orders) {
 		ArrayList<Order> newOrders = new ArrayList<Order>();
 
@@ -77,17 +99,12 @@ public class OrderDAO {
 						// Loop door bestaande orders, om te kijken of de order uit de database al bekend is in de keuken, zo niet, dan sameOrder false houden.
 						for (Order order : orders) {
 							if (sameOrder == false) {
-								if (order.getOrderNr() != orderIDFromDb && order.getStatus() != 1) {
-									sameOrder = false;
-								} else {
+								if (order.getOrderNr() == orderIDFromDb && order.getStatus() == 1) {
 									sameOrder = true;
+								} else {
+									sameOrder = false;
 								}
 							}
-							
-							System.out.println(order.getOrderNr()+" - "+order.getStatus());
-							System.out.println(orderIDFromDb+" - "+statusFromDb);
-							
-							System.out.println(sameOrder+"\n");
 						}
 
 						// Als nieuwe order nog niet in de order-ArrayList zit, dan toevoegen
@@ -108,7 +125,72 @@ public class OrderDAO {
 
 		return newOrders;
 	}
+	
+	/**
+	 * 
+	 * @param orders An arraylist with orders.
+	 * @return All cancelled orders from the database.
+	 */
+	public ArrayList<Order> retrieveCancelledOrders(ArrayList<Order> orders) {
+		ArrayList<Order> cancelledOrders = new ArrayList<Order>();
 
+		// First open a database connnection
+		DatabaseConnection connection = new DatabaseConnection();
+		if (connection.openConnection()) {
+			// If a connection was successfully setup, execute the SELECT
+			// statement.
+			ResultSet resultset = connection
+					.executeSQLSelectStatement("SELECT * FROM dish_order WHERE status = 5");
+			// System.out.println("Stap 1");
+
+			if (resultset != null) {
+				try {
+					while (resultset.next()) {
+						boolean sameOrder = false;
+
+						int orderIDFromDb = resultset.getInt("ID");
+						int tableIDFromDb = resultset.getInt("table_ID");
+						int statusFromDb = resultset.getInt("status");
+						
+						// Maak tijdelijke nieuw order-object aan
+						Order cancelledOrder = new Order(tableIDFromDb, orderIDFromDb, statusFromDb);
+						
+						// Loop door bestaande orders, om te kijken of de order uit de database al bekend is in de keuken, zo niet, dan sameOrder false houden.
+						for (Order order : orders) {
+							if (sameOrder == false) {
+								if (order.getOrderNr() == orderIDFromDb) {
+									sameOrder = true;
+								} else {
+									sameOrder = false;
+								}
+							}
+						}
+
+						// Als nieuwe order nog niet in de order-ArrayList zit, dan toevoegen
+						if (sameOrder == true) {
+							cancelledOrders.add(cancelledOrder);
+						}
+					}
+				} catch (SQLException e) {
+					System.out.println(e);
+				}
+			}
+			// else an error occurred leave 'member' to null.
+
+			// We had a database connection opened. Since we're finished,
+			// we need to close it.
+			connection.closeConnection();
+		}
+
+		return cancelledOrders;
+	}
+
+	/**
+	 * 
+	 * @param status The status of an order.
+	 * @param orderNr The number of an order.
+	 * @return True or false depending on the success of the method.
+	 */
 	public boolean updateStatus(int status, int orderNr) {
 		boolean result = false;
 

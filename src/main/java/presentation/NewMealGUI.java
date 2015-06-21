@@ -2,48 +2,47 @@ package presentation;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridLayout;
+import java.util.List;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTable;
-import javax.swing.JTextField;
+import javax.swing.*;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 
+import domain.Ingredient;
 import businesslogic.OrderManager;
 
-
+/**
+ * 
+ * This class contains the NewMealGUI and creates the kitchenGUI.
+ * 
+ * @author Wesley Heesters
+ * @author Renée Vroedsteijn
+ * @author Thomas Roovers
+ * @version 1.0
+ * 
+ */
 
 public class NewMealGUI extends JPanel {
 	private OrderManager manager;
 	private JFrame frame;
 	private JButton backButton, updateButton;
+	private DefaultListModel ingredientListModel = new DefaultListModel();
+	private JList ingredientList = new JList(ingredientListModel);
+	private JScrollPane scrollPane = new JScrollPane(ingredientList);
 	private int productNr;
-	private JLabel name, ingredient, time, price;
-	private JTextField nameRight, timeRight, priceRightText;
-	String columnNames[] = {"Nr", "Ingredient", "Hoeveelheid", "Eenheid"};
-	String[] menuItems = { "1 Voorgerechten", "2 Soepen", "3 Hoofdgerechten", "4 Nagerechten", "6 Erbij", "7 Salades", "8 Pizza" };
-	DefaultTableModel tableModel = new DefaultTableModel(columnNames, 5) {
-	//	@Override
-//		public boolean isCellEditable(int row, int column) {
-//			if(column == 0 || column == 3) {
-//				return false;
-//			} else {
-//				return true;
-//			}
-//	    }
-	};
-	JTable table = new JTable(tableModel);
-	JComboBox menuList = new JComboBox(menuItems);
+	private JLabel name, description, time, price, category, panelTitle, ingredientTitle;
+	private JTextField nameRight, timeRight, priceRight, descriptionRight;
+	private String[] menuItems = { "1 Voorgerechten", "2 Soepen", "3 Hoofdgerechten", "4 Nagerechten", "6 Erbij", "7 Salades", "8 Pizza" };
+	private JComboBox menuList = new JComboBox(menuItems);
+	private List<ArrayList> allElements = new ArrayList<ArrayList>();
 	
 	public NewMealGUI(OrderManager manager, JFrame frame) {
 		this.manager = manager;
@@ -53,107 +52,214 @@ public class NewMealGUI extends JPanel {
 	}
 
 	public void createNewMealGUI() {
-		setLayout(new BorderLayout(10, 10));
-		setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-		
-			
-	/*	for(ProductIngredients productIngredient: productIngredients) {
-			int ingredientNr = productIngredient.getIngredientNr();
-			String ingredientName = productIngredient.getIngredientName();
-			int ingredientQuantity = productIngredient.getQuantity();
-			String ingredientUnit = productIngredient.getUnit();
-			
-			Object[] data = {ingredientNr, ingredientName, ingredientQuantity, ingredientUnit};
-			
-			tableModel.addRow(data);
-		}
-		
-	*/	table.getModel().addTableModelListener(tableModelListener);
+		setLayout(new BorderLayout(5, 5));
+		setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-		JPanel center = new JPanel();
-		JPanel south = new JPanel();
-		JPanel west = new JPanel();
 		JPanel north = new JPanel();
-		JPanel gridsouth = new JPanel();
-		JPanel westsouth = new JPanel();
-		JPanel innernorth = new JPanel();
-		JPanel innersouth = new JPanel();
-		JPanel innerwestnorth = new JPanel();
-		JPanel innerwestsouth = new JPanel();
-		JPanel innercenter = new JPanel();
-		JPanel innercenterwest = new JPanel();
-		JPanel tablePanel = new JPanel();
-
-	
-
-		timeRight = new JTextField("");
+		JPanel northNorth = new JPanel();
+		JPanel northCenter = new JPanel();
+		JPanel south = new JPanel();
+		JPanel southNorth = new JPanel();
+		JPanel southCenter = new JPanel();
+		JPanel southSouth = new JPanel();
+		JPanel southSouthEast = new JPanel();
+		JPanel southSouthWest = new JPanel();
+		
+		north.setLayout(new BorderLayout(5, 5));
+		northNorth.setLayout(new FlowLayout(FlowLayout.LEADING));
+		northNorth.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
+		northCenter.setLayout(new GridLayout(5, 2, 5, 5));
+				
+		south.setLayout(new BorderLayout(5, 5));
+		southNorth.setLayout(new FlowLayout(FlowLayout.LEADING));
+		southCenter.setLayout(new GridLayout(1, 1));
+		southSouth.setLayout(new BorderLayout(5, 5));
+		southSouthEast.setLayout(new FlowLayout(FlowLayout.TRAILING));
+		southSouthWest.setLayout(new FlowLayout(FlowLayout.LEADING));
+		
+		southNorth.setBorder(BorderFactory.createEmptyBorder(20, 0, 0, 0));
+		
+		panelTitle = new JLabel("Gerecht toevoegen");
+		panelTitle.setFont(new Font("Arial", Font.BOLD, 20));
+		
+		ingredientTitle = new JLabel("Kies ingrediënten");
+		ingredientTitle.setFont(new Font("Arial", Font.BOLD, 16));
+		
 		name = new JLabel("Gerechtnaam:");
-		nameRight = new JTextField("");
-		ingredient = new JLabel("Ingrediënten:");
+		description = new JLabel("Beschrijving:");
 		time = new JLabel("Bereidingstijd:");
-		price = new JLabel("Prijs in centen: ");
-
-
-		priceRightText = new JTextField("");
+		price = new JLabel("Prijs in centen:");
+		category = new JLabel("Catgeorie:");
+		
+		nameRight = new JTextField();
+		descriptionRight = new JTextField();
+		timeRight = new JTextField();
+		priceRight = new JTextField();
 
 		backButton = new JButton("Terug");
 		backButton.addActionListener(buttonActionListener);
 		
-		updateButton = new JButton("Opslaan");
+		updateButton = new JButton("Verder");
 		updateButton.addActionListener(updateActionListener);
-
-		north.setLayout(new BorderLayout(10, 10));
-		south.setLayout(new BorderLayout(10, 10));
-		center.setLayout(new GridLayout(2, 1));
-		west.setLayout(new GridLayout(2, 1));
-		innercenter.setLayout(new BorderLayout(10, 10));
-		innercenter.setBorder(BorderFactory.createEmptyBorder(50, 0, 0, 0));
-		innercenterwest.setLayout(new BorderLayout(10, 10));
-		innercenterwest.setBorder(BorderFactory.createEmptyBorder(50, 0, 0, 0));
-		tablePanel.setLayout(new BorderLayout(10,10));
-		gridsouth.setLayout(new BorderLayout(10, 10));
-		westsouth.setLayout(new BorderLayout(10, 10));
-		innersouth.setLayout(new BorderLayout(10, 10));
-		innersouth.setBorder(BorderFactory.createEmptyBorder(0, 0, 15, 0));
-		innernorth.setLayout(new BorderLayout(10, 10));
-		innerwestnorth.setLayout(new BorderLayout(10, 10));
-		innerwestsouth.setLayout(new BorderLayout(10, 10));
-		innerwestsouth.setBorder(BorderFactory.createEmptyBorder(0, 0, 20, 0));
-
-		north.add(name, BorderLayout.WEST);
-		innercenterwest.add(ingredient);
-		west.add(innercenterwest);
-north.add(menuList, BorderLayout.SOUTH);
-		south.add(updateButton, BorderLayout.WEST);
-		south.add(backButton, BorderLayout.EAST);
-		north.add(nameRight, BorderLayout.CENTER);
-		center.add(innercenter);
-		tablePanel.add(table.getTableHeader(), BorderLayout.BEFORE_FIRST_LINE);
-		tablePanel.add(table, BorderLayout.CENTER);
-		innercenter.add(tablePanel);
-		gridsouth.add(innernorth, BorderLayout.NORTH);
-		gridsouth.add(innersouth, BorderLayout.SOUTH);
-		westsouth.add(innerwestnorth, BorderLayout.NORTH);
-		westsouth.add(innerwestsouth, BorderLayout.SOUTH);
-		innersouth.add(timeRight, BorderLayout.NORTH);
-
-		innerwestsouth.add(time, BorderLayout.NORTH);
-		innerwestsouth.add(price, BorderLayout.SOUTH);
-		innersouth.add(priceRightText, BorderLayout.SOUTH);
-		west.add(westsouth);
-		center.add(gridsouth);
+		
+		ArrayList<Ingredient> ingredients = manager.getIngredients();
+		
+		for(Ingredient ingredient: ingredients) {
+			ingredientListModel.addElement(String.format("%02d", ingredient.getIngredientNr())+" - "+ingredient.getName());
+		}
+		
+		northNorth.add(panelTitle);
+		northCenter.add(name);
+		northCenter.add(nameRight);
+		northCenter.add(description);
+		northCenter.add(descriptionRight);
+		northCenter.add(time);
+		northCenter.add(timeRight);
+		northCenter.add(price);
+		northCenter.add(priceRight);
+		northCenter.add(category);
+		northCenter.add(menuList);
+		
+		southNorth.add(ingredientTitle);
+		
+		southCenter.add(scrollPane);
+				
+		southSouthEast.add(updateButton);
+		southSouthWest.add(backButton);
+		
+		southSouth.add(southSouthEast, BorderLayout.EAST);
+		southSouth.add(southSouthWest, BorderLayout.WEST);
+		
+		south.add(southNorth, BorderLayout.NORTH);
+		south.add(southCenter, BorderLayout.CENTER);
+		south.add(southSouth, BorderLayout.SOUTH);
+		
+		north.add(northNorth, BorderLayout.NORTH);
+		north.add(northCenter, BorderLayout.CENTER);
 
 		add(north, BorderLayout.NORTH);
-		add(west, BorderLayout.WEST);
-		add(center, BorderLayout.CENTER);
 		add(south, BorderLayout.SOUTH);
+	}
+	
+	public JPanel generateIngredientPanel(int newProductNr, List selectedIngredients) {
+		JPanel panel = new JPanel();
+		
+		String[] units = { "cl", "gram", "kg", "liter", "ml", "pak", "plak", "stuk" };
+		
+		int size = selectedIngredients.size();
+		
+		panel.setLayout(new BorderLayout(5, 5));
+		panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+		JPanel north = new JPanel();
+		JPanel center = new JPanel();
+		JPanel centerInner = new JPanel();
+		JPanel south = new JPanel();
+		
+		north.setLayout(new FlowLayout(FlowLayout.LEADING));
+		center.setLayout(new FlowLayout(FlowLayout.LEADING));
+		
+		int width = panel.getWidth();
+		int height = panel.getHeight();
+		
+		center.setSize(width, 100);
+		centerInner.setLayout(new GridLayout(size+1, 3, 5, 5));
+		centerInner.setSize(width, 100);
+		south.setLayout(new FlowLayout(FlowLayout.TRAILING));
+		
+		panelTitle = new JLabel("Ingrediënten specificeren");
+		panelTitle.setFont(new Font("Arial", Font.BOLD, 20));
+		
+		centerInner.add(new JLabel("Naam"));
+		centerInner.add(new JLabel("Hoeveelheid"));
+		centerInner.add(new JLabel("Eenheid"));
+		
+		for(Object object: selectedIngredients) {
+			String ingredientName[] = object.toString().split(" - ");
+			int ingredientNr = Integer.parseInt(ingredientName[0]);
+			
+			JLabel label = new JLabel(ingredientName[1]);
+			label.setFont(new Font("Arial", Font.PLAIN, 12));
+			
+			centerInner.add(label);
+			JTextField textField = new JTextField(10);
+			JComboBox comboBox = new JComboBox(units);
+			
+			centerInner.add(textField);
+			centerInner.add(comboBox);
+			
+			ArrayList<Object> ingredient = new ArrayList<Object>();
+			
+			ingredient.add(ingredientNr);
+			ingredient.add(newProductNr);
+			ingredient.add(textField);
+			ingredient.add(comboBox);
+			
+			allElements.add(ingredient);
+		}
+		
+		JButton save = new JButton("Opslaan");
+		save.addActionListener(saveIngredientSpecs);
+		
+		south.add(save);
+		
+		north.add(panelTitle);
+		
+		center.add(centerInner);
+		
+		panel.add(north, BorderLayout.NORTH);
+		panel.add(center, BorderLayout.CENTER);
+		panel.add(south, BorderLayout.SOUTH);
+		
+		return panel;
 	}
 
 	ActionListener buttonActionListener = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
+			frame.getContentPane().removeAll();
+			frame.setTitle("Keuken");
+			JPanel paneel = new KitchenGUI(manager, frame);
+			frame.setContentPane(paneel);
+			frame.validate();
+			frame.repaint();
+		}
+	};
+	
+	ActionListener saveIngredientSpecs = new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			ArrayList<ArrayList> allValues = new ArrayList<ArrayList>();
 			
-			System.out.println("Wijziging geannuleerd.");
+			for(ArrayList AL: allElements) {
+				ArrayList<String> value = new ArrayList<String>();
+				
+				String ingredientNr = AL.get(0).toString();
+				String productNr = AL.get(1).toString();
+				
+				JTextField field = (JTextField) AL.get(2);
+				JComboBox box = (JComboBox) AL.get(3);
+				
+				String quantity = field.getText();
+				String unit = box.getSelectedItem().toString();
+				
+				value.add(ingredientNr);
+				value.add(productNr);
+				value.add(quantity);
+				value.add(unit);
+				
+				allValues.add(value);
 			}
+			
+			manager.insertProductIngredients(allValues);
+			
+			JOptionPane.showMessageDialog(null, "Het product is toegevoegd aan het assortiment.");
+			
+			frame.getContentPane().removeAll();
+			frame.setTitle("Keuken");
+			JPanel paneel = new KitchenGUI(manager, frame);
+			frame.setContentPane(paneel);
+			frame.validate();
+			frame.repaint();
+		}
 	};
 	
 	ActionListener updateActionListener = new ActionListener() {
@@ -161,38 +267,33 @@ north.add(menuList, BorderLayout.SOUTH);
 			String selectedMenu = menuList.getSelectedItem().toString();
 			String nr = selectedMenu.substring(0, selectedMenu.indexOf(" "));
 			int menuID = Integer.parseInt(nr); 
-			String name = nameRight.getText();
-			long prepTime = Long.parseLong(timeRight.getText());
-			long price = Long.parseLong(priceRightText.getText());
 			
-		manager.newProduct(name, price, menuID, prepTime);
-		
+			String nameValue = nameRight.getText();
+			String descriptionValue = descriptionRight.getText();
+			long priceValue = 0;
+			long prepTimeValue = 0;
 			
+			if(!timeRight.getText().equals("")) {
+				prepTimeValue = Long.parseLong(timeRight.getText());
+			}
 			
-		}
-	};
-	
-	
-	TableModelListener tableModelListener = new TableModelListener() {
-		public void tableChanged(TableModelEvent e) {
-			if (e.getType() == TableModelEvent.UPDATE) {
-				int col = table.getSelectedColumn();
-				int row = table.getSelectedRow();
+			if(!priceRight.getText().equals("")) {
+				priceValue = Long.parseLong(priceRight.getText());
+			}
+			
+			if(!nameValue.equals("") && !descriptionValue.equals("") && !timeRight.equals("") && !priceRight.equals("")) {
+				int newProductNr = manager.createNewProduct(priceValue, menuID, nameValue, descriptionValue, prepTimeValue);
 				
-	//			manager.updateIngredientSpecs(table, col, row, productNr);
+				List objs = ingredientList.getSelectedValuesList();
+				
+				frame.getContentPane().removeAll();
+				
+				JPanel panel = generateIngredientPanel(newProductNr, objs);
+				
+				frame.setContentPane(panel);
+				frame.validate();
+				frame.repaint();
 			}
 		}
 	};
-	
-	public void createKitchenGUI(){
-		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-
-		frame.getContentPane().removeAll();
-		frame.setTitle("Keuken");
-		JPanel paneel = new KitchenGUI(manager, frame);
-		frame.setContentPane(paneel);
-		frame.validate();
-		frame.repaint();
-		
-	}
-	}
+}

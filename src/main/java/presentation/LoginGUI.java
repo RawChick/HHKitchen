@@ -7,6 +7,17 @@ import javax.swing.*;
 
 import businesslogic.OrderManager;
 
+/**
+ * 
+ * This class contains the loginGUI and creates the kitchenGUI.
+ * 
+ * @author Wesley Heesters
+ * @author Renée Vroedsteijn
+ * @author Thomas Roovers
+ * @version 1.0
+ * 
+ */
+
 public class LoginGUI extends JPanel {
 	private OrderManager manager;
 	private JFrame frame;
@@ -16,6 +27,7 @@ public class LoginGUI extends JPanel {
 	private JButton login;
 	private JButton[] numbers = new JButton[10];
 	private int i;
+	
 	
 	public LoginGUI(OrderManager manager, JFrame frame) {
 		this.manager = manager;
@@ -72,6 +84,7 @@ public class LoginGUI extends JPanel {
 		add(north, BorderLayout.NORTH);
 		add(south, BorderLayout.SOUTH);
 	}
+	
 	
 	ActionListener loginActionEvent = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {

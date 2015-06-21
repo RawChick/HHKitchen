@@ -10,7 +10,25 @@ import domain.Product;
 import domain.Order;
 import domain.OrderRow;
 
+/**
+ * 
+ * This class contains the methods to write and retrieve data to and from a database that have to do with the products from an order.
+ * 
+ * @author Wesley Heesters
+ * @author Renée Vroedsteijn
+ * @author Thomas Roovers
+ * @see businesslogic.OrderManager
+ * @version 1.0
+ * 
+ */
+
 public class OrderRowDAO {
+	
+	/**
+	 * 
+	 * @param orderNr The number of an order.
+	 * @return The products from a specific order.
+	 */
 	public ArrayList<OrderRow> retrieveOrderRows(int orderNr) {
 		ArrayList<OrderRow> retrievedOrderRows = new ArrayList<OrderRow>();
 		
@@ -20,7 +38,13 @@ public class OrderRowDAO {
 			// If a connection was successfully setup, execute the SELECT
 			// statement.
 			ResultSet resultset = connection
-					.executeSQLSelectStatement("SELECT * FROM dish_order_item WHERE order_ID = "+orderNr);
+					.executeSQLSelectStatement("SELECT dish_order_item.*, "
+							+ "dish_menu_item.cooking_minutes, "
+							+ "dish_menu_item.ID "
+							+ "FROM dish_order_item, dish_menu_item "
+							+ "WHERE dish_menu_item.ID = dish_order_item.dish_item_ID "
+							+ "AND dish_order_item.order_ID = "+orderNr+" "
+							+ "ORDER BY dish_menu_item.cooking_minutes DESC");
 
 			if (resultset != null) {
 				try {

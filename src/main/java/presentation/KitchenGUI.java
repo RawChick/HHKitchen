@@ -28,7 +28,19 @@ import javax.swing.event.ListSelectionListener;
 
 import businesslogic.OrderManager;
 import domain.Order;
+import domain.OrderRow;
 import domain.Product;
+
+/**
+ * 
+ * This class contains the kitchenGUI and creates the ChangeMealGUI, NewMealGUI and the SpecificationGUI.
+ * 
+ * @author Wesley Heesters
+ * @author Renée Vroedsteijn
+ * @author Thomas Roovers
+ * @version 1.0
+ * 
+ */
 
 public class KitchenGUI extends JPanel {
 	private OrderManager manager;
@@ -84,6 +96,7 @@ public class KitchenGUI extends JPanel {
 	public void createOrderOverview(JComponent orderOverview) {
 		manager.retrieveOrders();
 		manager.retrieveProducts();
+		manager.retrieveIngredients();
 		
 		Timer timer = new Timer();
 		orderOverview.setLayout(new BorderLayout(10, 10));
@@ -161,6 +174,16 @@ public class KitchenGUI extends JPanel {
 		for(Order order: orders) {
 			System.out.println(order.getOrderNr());
 			newOrderListModel.addElement("Bestelnr: " + order.getOrderNr());
+		}
+	}
+	
+	public void removeCancelledOrders() {
+		manager.retrieveCancelledOrders();
+		ArrayList<Order> orders = manager.getCancelledOrders();
+		
+		for(Order order: orders) {
+			System.out.println(order.getOrderNr());
+			newOrderListModel.removeElement("Bestelnr: " + order.getOrderNr());
 		}
 	}
 	
@@ -287,10 +310,12 @@ public class KitchenGUI extends JPanel {
 					
 					int orderNr = Integer.parseInt(nr);
 					
-					ArrayList<Product> orderProducts = manager.getProducts(orderNr);
+					ArrayList<OrderRow> orderRowsProducts = manager.getProducts(orderNr);
 					
-					for(Product product: orderProducts) {
-						mealListModel.addElement(String.format("%02d", product.getProductNr()) +" "+product.getName());
+					for(OrderRow orderRow: orderRowsProducts) {
+						Product product = manager.searchProduct(orderRow.getProductNr());
+						
+						mealListModel.addElement(String.format("%02d", product.getProductNr()) +" - "+orderRow.getAmount()+"x - "+product.getName()+" ("+product.getPreparationTime()+" min)");
 					}
 				}
 			}
@@ -319,10 +344,12 @@ public class KitchenGUI extends JPanel {
 					
 					int orderNr = Integer.parseInt(nr);
 					
-					ArrayList<Product> orderProducts = manager.getProducts(orderNr);
+					ArrayList<OrderRow> orderRowsProducts = manager.getProducts(orderNr);
 					
-					for(Product product: orderProducts) {
-						mealListModel.addElement(String.format("%02d", product.getProductNr())+" "+product.getName()+" ("+product.getPreparationTime()+" min)");
+					for(OrderRow orderRow: orderRowsProducts) {
+						Product product = manager.searchProduct(orderRow.getProductNr());
+						
+						mealListModel.addElement(String.format("%02d", product.getProductNr()) +" - "+orderRow.getAmount()+"x - "+product.getName()+" ("+product.getPreparationTime()+" min)");
 					}
 				}
 			}
@@ -418,10 +445,8 @@ public class KitchenGUI extends JPanel {
 		public void actionPerformed(ActionEvent e) {
 			if (!managingMealList.isSelectionEmpty()) {
 
-				String selectedMeal = (String) managingMealList
-						.getSelectedValue();
-				String nr = selectedMeal
-						.substring(0, selectedMeal.indexOf(" "));
+				String selectedMeal = (String) managingMealList.getSelectedValue();
+				String nr = selectedMeal.substring(0, selectedMeal.indexOf(" "));
 				int productNr = Integer.parseInt(nr);
 				manager.deleteProduct(productNr);
 				
@@ -448,18 +473,17 @@ public class KitchenGUI extends JPanel {
 	
 	public void newMealMenu() {
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-				
-				frame.getContentPane().removeAll();
-				frame.setTitle("Gerecht toevoegen");
-						
-				JPanel paneel = new NewMealGUI(manager, frame);
-				
-				frame.setContentPane(paneel);
-				frame.setVisible(true);
-				frame.validate();
-				frame.repaint();
-	
-	
+
+		frame.getContentPane().removeAll();
+		frame.setTitle("Gerecht toevoegen");
+
+		JPanel paneel = new NewMealGUI(manager, frame);
+
+		frame.setContentPane(paneel);
+		frame.setVisible(true);
+		frame.validate();
+		frame.repaint();
+
 	}
 	
 	public void changeMealMenu(int productNr) {

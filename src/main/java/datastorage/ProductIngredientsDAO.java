@@ -8,7 +8,24 @@ import javax.swing.JTable;
 
 import domain.ProductIngredients;
 
+/**
+ * 
+ * This class contains the methods to write and retrieve data to and from a database that have to do with the ingredients of a product.
+ * 
+ * @author Wesley Heesters
+ * @author Renée Vroedsteijn
+ * @author Thomas Roovers
+ * @see businesslogic.OrderManager
+ * @version 1.0
+ * 
+ */
+
 public class ProductIngredientsDAO {
+	/**
+	 * This method retrieves the ingredients belonging to a specific product.
+	 * @param productNr The number of a product.
+	 * @return The ingredients that belong to a product.
+	 */
 	public ArrayList<ProductIngredients> retrieveIngredients(int productNr) {
 		ArrayList<ProductIngredients> newIngredients = new ArrayList<ProductIngredients>();
 
@@ -56,6 +73,13 @@ public class ProductIngredientsDAO {
 		return newIngredients;
 	}
 	
+	/**
+	 * This method updates the ingredients belonging to a specific product.
+	 * @param productNr The number of a product.
+	 * @param ingredientNr The number of an ingredient.
+	 * @param name The name of an ingredient.
+	 * @param quantity The quantity of an ingredient.
+	 */
 	public void updateIngredientSpecs(int productNr, int ingredientNr, String name, int quantity) {
 		DatabaseConnection connection = new DatabaseConnection();
 		if (connection.openConnection()) {
@@ -70,6 +94,23 @@ public class ProductIngredientsDAO {
 	        } catch (Exception ex) {
 	        	ex.printStackTrace();
 	        }
+			
+			connection.closeConnection();
+		}
+	}
+	
+	/**
+	 * This method adds ingredients to a specific product.
+	 * @param ingredientNr The number of an ingredient.
+	 * @param productNr The number of a product.
+	 * @param quantity The quantity of an ingredient.
+	 * @param unit The unit of an ingredient.
+	 */
+	public void insertProductIngredients(int ingredientNr, int productNr, long quantity, String unit) {
+		DatabaseConnection connection = new DatabaseConnection();
+		
+		if(connection.openConnection()) {
+			connection.executeSQLInsertStatement("INSERT INTO ingredient (`food_ID`, `menu_item_ID`, `quantity`, `unit`) VALUES ("+ingredientNr+", "+productNr+", "+quantity+", '"+unit+"')");
 			
 			connection.closeConnection();
 		}

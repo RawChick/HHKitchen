@@ -7,6 +7,18 @@ import java.awt.*;
 import presentation.LoginGUI;
 import businesslogic.OrderManager;
 
+/**
+ * 
+ * This class contains the main method. This method is used to create the OrderManager and the LoginGUI.
+ * 
+ * 
+ * @author Wesley Heesters
+ * @author Renée Vroedsteijn
+ * @author Thomas Roovers
+ * @see businesslogic.OrderManager
+ * @see presentation.LoginGUI
+ * @version 1.0
+ */
 
 // Comment toegevoegd
 public class Main extends JFrame {
@@ -24,6 +36,7 @@ public class Main extends JFrame {
         
         JPanel paneel = new LoginGUI(manager, frame);
         frame.setContentPane(paneel);
+        //frame.getContentPane().setBackground(new Color(238, 238, 238));
         frame.setVisible( true );
 	}
 

@@ -6,7 +6,25 @@ import java.sql.Time;
 
 import domain.Product;
 
+/**
+ * 
+ * This class contains the methods to write and retrieve data to and from a database that have to do with employee's.
+ * 
+ * @author Wesley Heesters
+ * @author Renée Vroedsteijn
+ * @author Thomas Roovers
+ * @see businesslogic.OrderManager
+ * @version 1.0
+ * 
+ */
+
 public class EmployeeDAO {
+	
+	/**
+	 * This method finds an employee with the function "chefkok".
+	 * @param employeeNumber The number of an employee.
+	 * @return The name of an employee and either an exception or access to the application.
+	 */
 	public boolean findEmployee(String employeeNumber) {
 		boolean login = false;
 

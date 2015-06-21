@@ -2,6 +2,24 @@ package datastorage;
 
 import java.sql.*;
 
+/**
+ * 
+ * This class is used to open and close a connection with a database. 
+ * And has to handle: SELECT-, INSERT-, UPDATE- and DELETE-statements from the DAO-classes.
+ * 
+ * @author Wesley Heesters
+ * @author Renée Vroedsteijn
+ * @author Thomas Roovers
+ * @see EmployeeDAO
+ * @see IngredientDAO
+ * @see OrderDAO
+ * @see ProductDAO
+ * @see OrderRowDAO
+ * @see ProductIngredientsDAO
+ * @version 1.0
+ * 
+ */
+
 public class DatabaseConnection {
     
     private Connection connection;
@@ -133,5 +151,83 @@ public class DatabaseConnection {
         }
         
         return result;
+    }
+    
+    public boolean executeSQLDeleteStatement(String query)
+    {
+        boolean result = false;
+        
+        // First, check whether a some query was passed and the connection with
+        // the database.
+        if(query != null && connectionIsOpen())
+        {
+            // Then, if succeeded, execute the query.
+            try
+            {
+                statement.executeUpdate(query);
+                result = true;
+            }
+            catch(SQLException e)
+            {
+                System.out.println(e);
+                result = false;
+            }
+        }
+        
+        return result;
+    }
+    
+    public boolean executeSQLInsertStatement(String query)
+    {
+        boolean result = false;
+        
+        // First, check whether a some query was passed and the connection with
+        // the database.
+        if(query != null && connectionIsOpen())
+        {
+            // Then, if succeeded, execute the query.
+            try
+            {
+                statement.executeUpdate(query);
+                result = true;
+            }
+            catch(SQLException e)
+            {
+                System.out.println(e);
+                result = false;
+            }
+        }
+        
+        return result;
+    }
+    
+    public int executeSQLInsertStatement(String query, int id)
+    {
+    	int insertId = 0;
+    	int newProductNr = 0;
+        boolean result = false;
+        
+        // First, check whether a some query was passed and the connection with
+        // the database.
+        if(query != null && connectionIsOpen())
+        {
+            // Then, if succeeded, execute the query.
+            try
+            {
+                insertId = statement.executeUpdate(query, Statement.RETURN_GENERATED_KEYS);
+                result = true;
+                
+                ResultSet rs = statement.getGeneratedKeys();
+            	rs.next();
+            	newProductNr = rs.getInt(1);
+            }
+            catch(SQLException e)
+            {
+                System.out.println(e);
+                result = false;
+            }
+        }
+        
+        return newProductNr;
     }
 }

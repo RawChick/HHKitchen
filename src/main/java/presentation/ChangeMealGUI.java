@@ -23,6 +23,17 @@ import domain.Product;
 import domain.ProductIngredients;
 import businesslogic.OrderManager;
 
+/**
+ * 
+ * This class contains the ChangeMealGUI and creates the kitchenGUI.
+ * 
+ * @author Wesley Heesters
+ * @author Renée Vroedsteijn
+ * @author Thomas Roovers
+ * @version 1.0
+ * 
+ */
+
 public class ChangeMealGUI extends JPanel {
 	private OrderManager manager;
 	private JFrame frame;
