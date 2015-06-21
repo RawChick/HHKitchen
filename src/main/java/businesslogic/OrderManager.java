@@ -50,7 +50,7 @@ public class OrderManager {
 		newOrders = orderDAO.retrieveNewOrders(orders);
 		
 		for(Order order: newOrders) {
-			newOrders.add(order);
+			orders.add(order);
 		}
 	}
 	

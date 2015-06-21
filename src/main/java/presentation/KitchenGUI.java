@@ -100,8 +100,6 @@ public class KitchenGUI extends JPanel {
 		
 		westNorth.setLayout(new BoxLayout(westNorth, BoxLayout.PAGE_AXIS));
 		westCenter.setLayout(new BoxLayout(westCenter, BoxLayout.Y_AXIS));
-	
-		
 		
 		acceptOrder = new JButton("Accepteren");
 		acceptOrder.addActionListener(acceptActionListener);
@@ -115,9 +113,7 @@ public class KitchenGUI extends JPanel {
 		setButtonEnabled();
 		
 		newOrderList.setFixedCellHeight(25);
-		newOrderList.setFixedCellWidth(100);
 		acceptedOrderList.setFixedCellHeight(25);
-		acceptedOrderList.setFixedCellWidth(100);
 		
 		newOrderList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 		newOrderList.setLayoutOrientation(JList.VERTICAL);
@@ -139,8 +135,6 @@ public class KitchenGUI extends JPanel {
 
 			}
 		}, 10*1000, 10*1000);
-
-		
 		
 		westNorth.add(new JLabel("Nieuw:"));
 		westNorth.add(newOrderPane);
@@ -169,7 +163,7 @@ public class KitchenGUI extends JPanel {
 			newOrderListModel.addElement("Bestelnr: " + order.getOrderNr());
 		}
 	}
-	//
+	
 	public void fillLists() {
 		newOrderListModel.clear();
 		acceptedOrderListModel.clear();
@@ -328,7 +322,7 @@ public class KitchenGUI extends JPanel {
 					ArrayList<Product> orderProducts = manager.getProducts(orderNr);
 					
 					for(Product product: orderProducts) {
-						mealListModel.addElement(String.format("%02d", product.getProductNr())+" "+product.getName());
+						mealListModel.addElement(String.format("%02d", product.getProductNr())+" "+product.getName()+" ("+product.getPreparationTime()+" min)");
 					}
 				}
 			}

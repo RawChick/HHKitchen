@@ -26,12 +26,13 @@ public class OrderDAO {
 					while (resultset.next()) {
 						int orderIDFromDb = resultset.getInt("ID");
 						int tableIDFromDb = resultset.getInt("table_ID");
-						
-						int statusFromDb = resultset.getInt("status");
-						/*date dateFromDb = resultset.getDate("date_placed");*/
 
-						Order order = new Order(tableIDFromDb, orderIDFromDb, statusFromDb);
-						
+						int statusFromDb = resultset.getInt("status");
+						/* date dateFromDb = resultset.getDate("date_placed"); */
+
+						Order order = new Order(tableIDFromDb, orderIDFromDb,
+								statusFromDb);
+
 						orders.add(order);
 					}
 				} catch (SQLException e) {
@@ -48,10 +49,10 @@ public class OrderDAO {
 
 		return orders;
 	}
-	
+
 	public ArrayList<Order> retrieveNewOrders(ArrayList<Order> orders) {
 		ArrayList<Order> newOrders = new ArrayList<Order>();
-		
+
 		// First open a database connnection
 		DatabaseConnection connection = new DatabaseConnection();
 		if (connection.openConnection()) {
@@ -59,35 +60,39 @@ public class OrderDAO {
 			// statement.
 			ResultSet resultset = connection
 					.executeSQLSelectStatement("SELECT * FROM dish_order WHERE status = 1");
-// System.out.println("Stap 1");
-			
+			// System.out.println("Stap 1");
+
 			if (resultset != null) {
 				try {
 					while (resultset.next()) {
 						boolean sameOrder = false;
-						
+
 						int orderIDFromDb = resultset.getInt("ID");
 						int tableIDFromDb = resultset.getInt("table_ID");
-						
 						int statusFromDb = resultset.getInt("status");
-						/*date dateFromDb = resultset.getDate("date_placed");*/
 						
+						// Maak tijdelijke nieuw order-object aan
 						Order newOrder = new Order(tableIDFromDb, orderIDFromDb, statusFromDb);
-				//		System.out.println("Stap 2: " + sameOrder);
-						for(Order order: orders) {
-							if(sameOrder == false) {
-								if(order.getOrderNr() != orderIDFromDb && order.getStatus() != 1) {
+						
+						// Loop door bestaande orders, om te kijken of de order uit de database al bekend is in de keuken, zo niet, dan sameOrder false houden.
+						for (Order order : orders) {
+							if (sameOrder == false) {
+								if (order.getOrderNr() != orderIDFromDb && order.getStatus() != 1) {
 									sameOrder = false;
 								} else {
 									sameOrder = true;
 								}
 							}
-						}
-						
-						if(sameOrder == false) {
-						System.out.println("Stap 3");
-							newOrders.add(newOrder);
 							
+							System.out.println(order.getOrderNr()+" - "+order.getStatus());
+							System.out.println(orderIDFromDb+" - "+statusFromDb);
+							
+							System.out.println(sameOrder+"\n");
+						}
+
+						// Als nieuwe order nog niet in de order-ArrayList zit, dan toevoegen
+						if (sameOrder == false) {
+							newOrders.add(newOrder);
 						}
 					}
 				} catch (SQLException e) {
@@ -103,17 +108,18 @@ public class OrderDAO {
 
 		return newOrders;
 	}
-	
+
 	public boolean updateStatus(int status, int orderNr) {
 		boolean result = false;
-		
+
 		// First open a database connnection
 		DatabaseConnection connection = new DatabaseConnection();
 		if (connection.openConnection()) {
 			// If a connection was successfully setup, execute the SELECT
 			// statement.
 			result = connection
-					.executeSQLUpdateStatement("UPDATE dish_order SET status = "+status+" WHERE ID = "+orderNr+";");
+					.executeSQLUpdateStatement("UPDATE dish_order SET status = "
+							+ status + " WHERE ID = " + orderNr + ";");
 
 			// We had a database connection opened. Since we're finished,
 			// we need to close it.
