@@ -13,31 +13,31 @@ package domain;
  */
 
 public class OrderRow {
-	private int orderNr;
-	private int productNr;
-	private int amount;
-	
-	/**
-	 * 
-	 * @param orderNr Number of an order.
-	 * @param productNr Number of an product.
-	 * @param amount Amount of products in an order.
-	 */
-	public OrderRow(int orderNr, int productNr, int amount) {
-		this.orderNr = orderNr;
-		this.productNr = productNr;
-		this.amount = amount;
-	}
-	
-	public int getOrderNr() {
-		return orderNr;
-	}
-	
-	public int getProductNr() {
-		return productNr;
-	}
-	
-	public int getAmount() {
-		return amount;
-	}
+    private int orderNr;
+    private int productNr;
+    private int amount;
+
+    /**
+     * 
+     * @param orderNr Number of an order.
+     * @param productNr Number of an product.
+     * @param amount Amount of products in an order.
+     */
+    public OrderRow(int orderNr, int productNr, int amount) {
+        this.orderNr = orderNr;
+        this.productNr = productNr;
+        this.amount = amount;
+    }
+
+    public int getOrderNr() {
+        return orderNr;
+    }
+
+    public int getProductNr() {
+        return productNr;
+    }
+
+    public int getAmount() {
+        return amount;
+    }
 }

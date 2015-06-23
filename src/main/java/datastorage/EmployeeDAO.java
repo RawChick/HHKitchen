@@ -17,42 +17,42 @@ import java.sql.SQLException;
  */
 
 public class EmployeeDAO {
-	
-	/**
-	 * This method finds an employee with the function "chefkok".
-	 * @param employeeNumber The number of an employee.
-	 * @return The name of an employee and either an exception or access to the application.
-	 */
-	public boolean findEmployee(String employeeNumber) {
-		boolean login = false;
 
-		// First open a database connnection
-		DatabaseConnection connection = new DatabaseConnection();
-		if (connection.openConnection()) {
-			// If a connection was successfully setup, execute the SELECT
-			// statement.
-			ResultSet resultset = connection
-					.executeSQLSelectStatement("SELECT * FROM staff WHERE ID = "
-							+ employeeNumber + " AND Group_ID = 2;");
+    /**
+     * This method finds an employee with the function "chefkok".
+     * @param employeeNumber The number of an employee.
+     * @return The name of an employee and either an exception or access to the application.
+     */
+    public boolean findEmployee(String employeeNumber) {
+        boolean login = false;
 
-			if (resultset != null) {
-				try {
-					if(resultset.next()) {
-						System.out.println(resultset.getString("firstname"));
-						
-						login = true;
-					}
-				} catch (SQLException e) {
-					System.out.println(e);
-				}
-			}
-			// else an error occurred leave 'member' to null.
+        // First open a database connnection
+        DatabaseConnection connection = new DatabaseConnection();
+        if (connection.openConnection()) {
+        // If a connection was successfully setup, execute the SELECT
+        // statement.
+        ResultSet resultset = connection
+                .executeSQLSelectStatement("SELECT * FROM staff WHERE ID = "
+                        + employeeNumber + " AND Group_ID = 2;");
 
-			// We had a database connection opened. Since we're finished,
-			// we need to close it.
-			connection.closeConnection();
-		}
+        if (resultset != null) {
+        try {
+        if(resultset.next()) {
+        System.out.println(resultset.getString("firstname"));
 
-		return login;
-	}
+        login = true;
+        }
+        } catch (SQLException e) {
+        System.out.println(e);
+        }
+        }
+        // else an error occurred leave 'member' to null.
+
+        // We had a database connection opened. Since we're finished,
+        // we need to close it.
+        connection.closeConnection();
+        }
+
+        return login;
+    }
 }
