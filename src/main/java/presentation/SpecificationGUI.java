@@ -6,6 +6,7 @@ import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
@@ -31,7 +32,7 @@ import businesslogic.OrderManager;
  * 
  */
 
-public class SpecificationGUI extends JPanel{
+public class SpecificationGUI extends JPanel implements Serializable{
 	/**
 	 * 
 	 */
