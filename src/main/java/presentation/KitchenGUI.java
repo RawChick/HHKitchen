@@ -178,7 +178,6 @@ public class KitchenGUI extends JPanel {
         List<Order> orders = manager.getNewOrders();
 
         for (Order order : orders) {
-            System.out.println(order.getOrderNr());
             newOrderListModel.addElement("Bestelnr: " + order.getOrderNr());
         }
     }
@@ -188,7 +187,6 @@ public class KitchenGUI extends JPanel {
         List<Order> orders = manager.getCancelledOrders();
 
         for (Order order : orders) {
-            System.out.println(order.getOrderNr());
             newOrderListModel.removeElement("Bestelnr: " + order.getOrderNr());
         }
     }
@@ -322,17 +320,9 @@ public class KitchenGUI extends JPanel {
                             .getProducts(orderNr);
 
                     for (OrderRow orderRow : orderRowsProducts) {
-                        Product product = manager.searchProduct(orderRow
-                                .getProductNr());
+                        Product product = manager.searchProduct(orderRow.getProductNr());
 
-                        mealListModel.addElement(String.format("%02d",
-                                product.getProductNr())
-                                + " - "
-                                + orderRow.getAmount()
-                                + "x - "
-                                + product.getName()
-                                + " ("
-                                + product.getPreparationTime() + " min)");
+                        mealListModel.addElement(String.format("%02d", product.getProductNr()) + " - " + orderRow.getAmount() + "x - " + product.getName() + " (" + product.getPreparationTime() + " min)");
                     }
                 }
             }

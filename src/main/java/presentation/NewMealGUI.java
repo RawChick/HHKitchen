@@ -240,7 +240,7 @@ public class NewMealGUI extends JPanel {
 
     ActionListener saveIngredientSpecs = new ActionListener() {
         public void actionPerformed(ActionEvent e) {
-            ArrayList<ArrayList> allValues = new ArrayList<ArrayList>();
+            List<ArrayList> allValues = new ArrayList<ArrayList>();
 
             for (ArrayList AL : allElements) {
                 ArrayList<String> value = new ArrayList<String>();

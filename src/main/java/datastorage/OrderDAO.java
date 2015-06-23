@@ -26,8 +26,8 @@ public class OrderDAO {
      * 
      * @return This method retrieves the orders from the database.
      */
-    public ArrayList<Order> retrieveOrders() {
-        ArrayList<Order> orders = new ArrayList<Order>();
+    public List<Order> retrieveOrders() {
+        List<Order> orders = new ArrayList<Order>();
 
         // First open a database connnection
         DatabaseConnection connection = new DatabaseConnection();
@@ -44,10 +44,8 @@ public class OrderDAO {
                         int tableIDFromDb = resultset.getInt("table_ID");
 
                         int statusFromDb = resultset.getInt("status");
-                        /* date dateFromDb = resultset.getDate("date_placed"); */
 
-                        Order order = new Order(tableIDFromDb, orderIDFromDb,
-                                statusFromDb);
+                        Order order = new Order(tableIDFromDb, orderIDFromDb, statusFromDb);
 
                         orders.add(order);
                     }
@@ -81,7 +79,6 @@ public class OrderDAO {
             // If a connection was successfully setup, execute the SELECT
             // statement.
             ResultSet resultset = connection.executeSQLSelectStatement("SELECT * FROM dish_order WHERE status = 1");
-            // System.out.println("Stap 1");
 
             if (resultset != null) {
                 try {
@@ -146,7 +143,6 @@ public class OrderDAO {
             // statement.
             ResultSet resultset = connection
                     .executeSQLSelectStatement("SELECT * FROM dish_order WHERE status = 5");
-            // System.out.println("Stap 1");
 
             if (resultset != null) {
                 try {

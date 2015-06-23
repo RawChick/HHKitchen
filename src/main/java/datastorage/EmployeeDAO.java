@@ -38,16 +38,12 @@ public class EmployeeDAO {
                     .executeSQLSelectStatement("SELECT * FROM staff WHERE ID = "
                             + employeeNumber + " AND Group_ID = 2;");
 
-            if (resultset != null) {
-                try {
-                    if (resultset.next()) {
-                        System.out.println(resultset.getString("firstname"));
-
-                        login = true;
-                    }
-                } catch (SQLException e) {
-                    System.out.println(e);
+            try {
+                if (resultset.next()) {
+                    login = true;
                 }
+            } catch (SQLException e) {
+                System.out.println(e);
             }
             // else an error occurred leave 'member' to null.
 

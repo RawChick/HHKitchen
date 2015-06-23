@@ -173,8 +173,6 @@ public class ChangeMealGUI extends JPanel {
     ActionListener buttonActionListener = new ActionListener() {
         public void actionPerformed(ActionEvent e) {
             createKitchenGUI();
-
-            System.out.println("Wijziging geannuleerd.");
         }
     };
 
@@ -209,6 +207,7 @@ public class ChangeMealGUI extends JPanel {
         frame.setTitle("Keuken");
 
         JPanel paneel = new KitchenGUI(manager, frame);
+        frame.setContentPane(paneel);
         frame.validate();
         frame.repaint();
 

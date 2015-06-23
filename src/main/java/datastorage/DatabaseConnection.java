@@ -4,8 +4,8 @@ import java.sql.*;
 
 /**
  * 
- * This class is used to open and close a connection with a database. 
- * And has to handle: SELECT-, INSERT-, UPDATE- and DELETE-statements from the DAO-classes.
+ * This class is used to open and close a connection with a database. And has to
+ * handle: SELECT-, INSERT-, UPDATE- and DELETE-statements from the DAO-classes.
  * 
  * @author Wesley Heesters
  * @author Renée Vroedsteijn
@@ -30,206 +30,161 @@ public class DatabaseConnection {
     // execution method.
     private Statement statement;
 
-    public DatabaseConnection()
-    {
+    public DatabaseConnection() {
         connection = null;
         statement = null;
     }
 
-    public boolean openConnection()
-    {
+    public boolean openConnection() {
         boolean result = false;
         String ip = "jdbc:mysql://145.48.6.148/hartigehapivp4d";
         String access = "root";
         String pass = "10ec4u";
 
-        if(connection == null)
-    {
-        try
-        {   
-        // Try to create a connection with the library database
-        connection = DriverManager.getConnection(
-                ip, access, pass);
+        if (connection == null) {
+            try {
+                // Try to create a connection with the library database
+                connection = DriverManager.getConnection(ip, access, pass);
 
-        if(connection != null)
-    {
-        statement = connection.createStatement();
-    }
+                if (connection != null) {
+                    statement = connection.createStatement();
+                }
 
-        result = true;
+                result = true;
+            } catch (SQLException e) {
+                System.out.println(e);
+                result = false;
+            }
+        } else {
+            // A connection was already initalized.
+            result = true;
         }
-        catch(SQLException e)
-        {
-        System.out.println(e);
-        result = false;
-        }
-    }
-        else
-    {
-        // A connection was already initalized.
-        result = true;
-    }
 
         return result;
     }
 
-    public boolean connectionIsOpen()
-    {
+    public boolean connectionIsOpen() {
         boolean open = false;
 
-        if(connection != null && statement != null)
-    {
-        try
-        {
-        open = !connection.isClosed() && !statement.isClosed();
+        if (connection != null && statement != null) {
+            try {
+                open = !connection.isClosed() && !statement.isClosed();
+            } catch (SQLException e) {
+                System.out.println(e);
+                open = false;
+            }
         }
-        catch(SQLException e)
-        {
-        System.out.println(e);
-        open = false;
-        }
-    }
         // Else, at least one the connection or statement fields is null, so
         // no valid connection.
 
         return open;
     }
 
-    public void closeConnection()
-    {
-        try
-        {
-        statement.close();
+    public void closeConnection() {
+        try {
+            statement.close();
 
-        // Close the connection
-        connection.close();
-        }
-        catch(Exception e) {
-        System.out.println(e);
+            // Close the connection
+            connection.close();
+        } catch (Exception e) {
+            System.out.println(e);
         }
     }
 
-    public ResultSet executeSQLSelectStatement(String query)
-    {
+    public ResultSet executeSQLSelectStatement(String query) {
         ResultSet resultset = null;
 
         // First, check whether a some query was passed and the connection with
         // the database.
-        if(query != null && connectionIsOpen())
-    {
-        // Then, if succeeded, execute the query.
-        try
-        {
-        resultset = statement.executeQuery(query);
+        if (query != null && connectionIsOpen()) {
+            // Then, if succeeded, execute the query.
+            try {
+                resultset = statement.executeQuery(query);
+            } catch (SQLException e) {
+                System.out.println(e);
+                resultset = null;
+            }
         }
-        catch(SQLException e)
-        {
-        System.out.println(e);
-        resultset = null;
-        }
-    }
 
         return resultset;
     }
 
-    public boolean executeSQLUpdateStatement(String query)
-    {
+    public boolean executeSQLUpdateStatement(String query) {
         boolean result = false;
 
         // First, check whether a some query was passed and the connection with
         // the database.
-        if(query != null && connectionIsOpen())
-    {
-        // Then, if succeeded, execute the query.
-        try
-        {
-        statement.executeUpdate(query);
-        result = true;
+        if (query != null && connectionIsOpen()) {
+            // Then, if succeeded, execute the query.
+            try {
+                statement.executeUpdate(query);
+                result = true;
+            } catch (SQLException e) {
+                System.out.println(e);
+                result = false;
+            }
         }
-        catch(SQLException e)
-        {
-        System.out.println(e);
-        result = false;
-        }
-    }
 
         return result;
     }
 
-    public boolean executeSQLDeleteStatement(String query)
-    {
+    public boolean executeSQLDeleteStatement(String query) {
         boolean result = false;
 
         // First, check whether a some query was passed and the connection with
         // the database.
-        if(query != null && connectionIsOpen())
-    {
-        // Then, if succeeded, execute the query.
-        try
-        {
-        statement.executeUpdate(query);
-        result = true;
+        if (query != null && connectionIsOpen()) {
+            // Then, if succeeded, execute the query.
+            try {
+                statement.executeUpdate(query);
+                result = true;
+            } catch (SQLException e) {
+                System.out.println(e);
+                result = false;
+            }
         }
-        catch(SQLException e)
-        {
-        System.out.println(e);
-        result = false;
-        }
-    }
 
         return result;
     }
 
-    public boolean executeSQLInsertStatement(String query)
-    {
+    public boolean executeSQLInsertStatement(String query) {
         boolean result = false;
 
         // First, check whether a some query was passed and the connection with
         // the database.
-        if(query != null && connectionIsOpen())
-    {
-        // Then, if succeeded, execute the query.
-        try
-        {
-        statement.executeUpdate(query);
-        result = true;
+        if (query != null && connectionIsOpen()) {
+            // Then, if succeeded, execute the query.
+            try {
+                statement.executeUpdate(query);
+                result = true;
+            } catch (SQLException e) {
+                System.out.println(e);
+                result = false;
+            }
         }
-        catch(SQLException e)
-        {
-        System.out.println(e);
-        result = false;
-        }
-    }
 
         return result;
     }
 
-    public int executeSQLInsertStatement(String query, int id)
-    {
+    public int executeSQLInsertStatement(String query, int id) {
 
-        int newProductNr = 0;
-
+        int newProductNr = id;
 
         // First, check whether a some query was passed and the connection with
         // the database.
-        if(query != null && connectionIsOpen())
-    {
-        // Then, if succeeded, execute the query.
-        try
-        {
-        statement.executeUpdate(query, Statement.RETURN_GENERATED_KEYS);
+        if (query != null && connectionIsOpen()) {
+            // Then, if succeeded, execute the query.
+            try {
+                statement.executeUpdate(query, Statement.RETURN_GENERATED_KEYS);
 
+                ResultSet rs = statement.getGeneratedKeys();
+                rs.next();
+                newProductNr = rs.getInt(1);
+            } catch (SQLException e) {
+                System.out.println(e);
 
-        ResultSet rs = statement.getGeneratedKeys();
-        rs.next();
-        newProductNr = rs.getInt(1);
+            }
         }
-        catch(SQLException e)
-        {
-        System.out.println(e);
-
-        }
-    }
 
         return newProductNr;
     }
