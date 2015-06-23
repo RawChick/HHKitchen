@@ -2,7 +2,8 @@ package domain;
 
 /**
  * 
- * This class contains the attributes for the order rows and their respective getters and setters.
+ * This class contains the attributes for the order rows and their respective
+ * getters and setters.
  * 
  * @author Wesley Heesters
  * @author Renée Vroedsteijn
@@ -19,9 +20,12 @@ public class OrderRow {
 
     /**
      * 
-     * @param orderNr Number of an order.
-     * @param productNr Number of an product.
-     * @param amount Amount of products in an order.
+     * @param orderNr
+     *            Number of an order.
+     * @param productNr
+     *            Number of an product.
+     * @param amount
+     *            Amount of products in an order.
      */
     public OrderRow(int orderNr, int productNr, int amount) {
         this.orderNr = orderNr;

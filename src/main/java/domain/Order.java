@@ -1,10 +1,9 @@
 package domain;
 
-
-
 /**
  * 
- * This class contains the attributes for the orders and their respective getters and setters.
+ * This class contains the attributes for the orders and their respective
+ * getters and setters.
  * 
  * @author Wesley Heesters
  * @author Renée Vroedsteijn
@@ -19,12 +18,14 @@ public class Order {
     private int orderNr;
     private int status;
 
-
     /**
      * 
-     * @param tableNr Table number from an order.
-     * @param orderNr Number of an order.
-     * @param status State of an order.
+     * @param tableNr
+     *            Table number from an order.
+     * @param orderNr
+     *            Number of an order.
+     * @param status
+     *            State of an order.
      */
     public Order(int tableNr, int orderNr, int status) {
         this.tableNr = tableNr;

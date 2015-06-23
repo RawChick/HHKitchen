@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -20,7 +21,6 @@ import businesslogic.OrderManager;
 import domain.Product;
 import domain.ProductIngredients;
 
-
 /**
  * 
  * This class contains the SpecificationGUI and creates the kitchenGUI.
@@ -32,17 +32,14 @@ import domain.ProductIngredients;
  * 
  */
 
-public class SpecificationGUI extends JPanel implements Serializable{
-    /**
-     * 
-     */
+public class SpecificationGUI extends JPanel implements Serializable {
+
     private static final long serialVersionUID = 1L;
     private OrderManager manager;
     private JFrame frame;
     private JButton backButton;
     private int productNr;
     private JLabel name, ingredient, time, nameRight, timeRight;
-
 
     public SpecificationGUI(OrderManager manager, JFrame frame, int productNr) {
         this.manager = manager;
@@ -56,7 +53,7 @@ public class SpecificationGUI extends JPanel implements Serializable{
         setLayout(new BorderLayout(10, 10));
         setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-        String[] columnNames = {"Ingredient", "Hoeveelheid", "Eenheid"};
+        String[] columnNames = { "Ingredient", "Hoeveelheid", "Eenheid" };
         DefaultTableModel tableModel = new DefaultTableModel(columnNames, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -68,16 +65,18 @@ public class SpecificationGUI extends JPanel implements Serializable{
         table.setFocusable(false);
         table.setRowSelectionAllowed(false);
 
-        ArrayList<ProductIngredients> productIngredients = manager.retrieveIngredients(productNr);
+        List<ProductIngredients> productIngredients = manager
+                .retrieveIngredients(productNr);
 
-        for(ProductIngredients productIngredient: productIngredients) {
-        String ingredientName = productIngredient.getIngredientName();
-        int ingredientQuantity = productIngredient.getQuantity();
-        String ingredientUnit = productIngredient.getUnit();
+        for (ProductIngredients productIngredient : productIngredients) {
+            String ingredientName = productIngredient.getIngredientName();
+            int ingredientQuantity = productIngredient.getQuantity();
+            String ingredientUnit = productIngredient.getUnit();
 
-        Object[] data = {ingredientName, ingredientQuantity, ingredientUnit};
+            Object[] data = { ingredientName, ingredientQuantity,
+                    ingredientUnit };
 
-        tableModel.addRow(data);
+            tableModel.addRow(data);
         }
 
         Dimension preferredSize = new Dimension(100, 60);
@@ -97,15 +96,13 @@ public class SpecificationGUI extends JPanel implements Serializable{
         ingredient = new JLabel("Ingrediënten:");
         time = new JLabel("Bereidingstijd:");
 
-
         backButton = new JButton("Terug");
         backButton.addActionListener(buttonActionListener);
 
-
         south.setLayout(new BorderLayout(10, 10));
-        center.setLayout(new GridLayout(3,1));
-        west.setLayout(new GridLayout(3,1));
-        tablepanel.setLayout(new BorderLayout(10,10));
+        center.setLayout(new GridLayout(3, 1));
+        west.setLayout(new GridLayout(3, 1));
+        tablepanel.setLayout(new BorderLayout(10, 10));
 
         west.add(name);
         west.add(ingredient);
@@ -123,10 +120,8 @@ public class SpecificationGUI extends JPanel implements Serializable{
 
     }
 
-
     ActionListener buttonActionListener = new ActionListener() {
         public void actionPerformed(ActionEvent e) {
-
 
             frame.getContentPane().removeAll();
             frame.setTitle("Keuken");
@@ -137,5 +132,3 @@ public class SpecificationGUI extends JPanel implements Serializable{
         }
     };
 }
-
-

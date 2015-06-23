@@ -24,7 +24,6 @@ import javax.swing.JTextField;
 import businesslogic.OrderManager;
 import domain.Ingredient;
 
-
 /**
  * 
  * This class contains the NewMealGUI and creates the kitchenGUI.
@@ -37,9 +36,7 @@ import domain.Ingredient;
  */
 
 public class NewMealGUI extends JPanel {
-    /**
-     * 
-     */
+
     private static final long serialVersionUID = 1L;
     private OrderManager manager;
     private JFrame frame;
@@ -47,9 +44,12 @@ public class NewMealGUI extends JPanel {
     private DefaultListModel ingredientListModel = new DefaultListModel();
     private JList ingredientList = new JList(ingredientListModel);
     private JScrollPane scrollPane = new JScrollPane(ingredientList);
-    private JLabel name, description, time, price, category, panelTitle, ingredientTitle;
+    private JLabel name, description, time, price, category, panelTitle,
+            ingredientTitle;
     private JTextField nameRight, timeRight, priceRight, descriptionRight;
-    private String[] menuItems = { "1 Voorgerechten", "2 Soepen", "3 Hoofdgerechten", "4 Nagerechten", "6 Erbij", "7 Salades", "8 Pizza" };
+    private String[] menuItems = { "1 Voorgerechten", "2 Soepen",
+            "3 Hoofdgerechten", "4 Nagerechten", "6 Erbij", "7 Salades",
+            "8 Pizza" };
     private JComboBox menuList = new JComboBox(menuItems);
     private List<ArrayList> allElements = new ArrayList<ArrayList>();
     private Font font1 = new Font("Arial", Font.BOLD, 20);
@@ -57,7 +57,6 @@ public class NewMealGUI extends JPanel {
     public NewMealGUI(OrderManager manager, JFrame frame) {
         this.manager = manager;
         this.frame = frame;
-
 
         createNewMealGUI();
     }
@@ -113,10 +112,12 @@ public class NewMealGUI extends JPanel {
         updateButton = new JButton("Verder");
         updateButton.addActionListener(updateActionListener);
 
-        ArrayList<Ingredient> ingredients = manager.getIngredients();
+        List<Ingredient> ingredients = manager.getIngredients();
 
-        for(Ingredient ingredient: ingredients) {
-        ingredientListModel.addElement(String.format("%02d", ingredient.getIngredientNr())+" - "+ingredient.getName());
+        for (Ingredient ingredient : ingredients) {
+            ingredientListModel.addElement(String.format("%02d",
+                    ingredient.getIngredientNr())
+                    + " - " + ingredient.getName());
         }
 
         northNorth.add(panelTitle);
@@ -152,10 +153,12 @@ public class NewMealGUI extends JPanel {
         add(south, BorderLayout.SOUTH);
     }
 
-    public JPanel generateIngredientPanel(int newProductNr, List selectedIngredients) {
+    public JPanel generateIngredientPanel(int newProductNr,
+            List selectedIngredients) {
         JPanel panel = new JPanel();
 
-        String[] units = { "cl", "gram", "kg", "liter", "ml", "pak", "plak", "stuk" };
+        String[] units = { "cl", "gram", "kg", "liter", "ml", "pak", "plak",
+                "stuk" };
 
         int size = selectedIngredients.size();
 
@@ -173,7 +176,7 @@ public class NewMealGUI extends JPanel {
         int width = panel.getWidth();
 
         center.setSize(width, 100);
-        centerInner.setLayout(new GridLayout(size+1, 3, 5, 5));
+        centerInner.setLayout(new GridLayout(size + 1, 3, 5, 5));
         centerInner.setSize(width, 100);
         south.setLayout(new FlowLayout(FlowLayout.TRAILING));
 
@@ -184,28 +187,28 @@ public class NewMealGUI extends JPanel {
         centerInner.add(new JLabel("Hoeveelheid"));
         centerInner.add(new JLabel("Eenheid"));
 
-        for(Object object: selectedIngredients) {
-        String[] ingredientName = object.toString().split(" - ");
-        int ingredientNr = Integer.parseInt(ingredientName[0]);
+        for (Object object : selectedIngredients) {
+            String[] ingredientName = object.toString().split(" - ");
+            int ingredientNr = Integer.parseInt(ingredientName[0]);
 
-        JLabel label = new JLabel(ingredientName[1]);
-        label.setFont(new Font("Arial", Font.PLAIN, 12));
+            JLabel label = new JLabel(ingredientName[1]);
+            label.setFont(new Font("Arial", Font.PLAIN, 12));
 
-        centerInner.add(label);
-        JTextField textField = new JTextField(10);
-        JComboBox comboBox = new JComboBox(units);
+            centerInner.add(label);
+            JTextField textField = new JTextField(10);
+            JComboBox comboBox = new JComboBox(units);
 
-        centerInner.add(textField);
-        centerInner.add(comboBox);
+            centerInner.add(textField);
+            centerInner.add(comboBox);
 
-        ArrayList<Object> ingredient = new ArrayList<Object>();
+            ArrayList<Object> ingredient = new ArrayList<Object>();
 
-        ingredient.add(ingredientNr);
-        ingredient.add(newProductNr);
-        ingredient.add(textField);
-        ingredient.add(comboBox);
+            ingredient.add(ingredientNr);
+            ingredient.add(newProductNr);
+            ingredient.add(textField);
+            ingredient.add(comboBox);
 
-        allElements.add(ingredient);
+            allElements.add(ingredient);
         }
 
         JButton save = new JButton("Opslaan");
@@ -239,29 +242,30 @@ public class NewMealGUI extends JPanel {
         public void actionPerformed(ActionEvent e) {
             ArrayList<ArrayList> allValues = new ArrayList<ArrayList>();
 
-            for(ArrayList AL: allElements) {
-            ArrayList<String> value = new ArrayList<String>();
+            for (ArrayList AL : allElements) {
+                ArrayList<String> value = new ArrayList<String>();
 
-            String ingredientNr = AL.get(0).toString();
-            String productNr = AL.get(1).toString();
+                String ingredientNr = AL.get(0).toString();
+                String productNr = AL.get(1).toString();
 
-            JTextField field = (JTextField) AL.get(2);
-            JComboBox box = (JComboBox) AL.get(3);
+                JTextField field = (JTextField) AL.get(2);
+                JComboBox box = (JComboBox) AL.get(3);
 
-            String quantity = field.getText();
-            String unit = box.getSelectedItem().toString();
+                String quantity = field.getText();
+                String unit = box.getSelectedItem().toString();
 
-            value.add(ingredientNr);
-            value.add(productNr);
-            value.add(quantity);
-            value.add(unit);
+                value.add(ingredientNr);
+                value.add(productNr);
+                value.add(quantity);
+                value.add(unit);
 
-            allValues.add(value);
+                allValues.add(value);
             }
 
             manager.insertProductIngredients(allValues);
 
-            JOptionPane.showMessageDialog(null, "Het product is toegevoegd aan het assortiment.");
+            JOptionPane.showMessageDialog(null,
+                    "Het product is toegevoegd aan het assortiment.");
 
             frame.getContentPane().removeAll();
             frame.setTitle("Keuken");
@@ -276,33 +280,35 @@ public class NewMealGUI extends JPanel {
         public void actionPerformed(ActionEvent e) {
             String selectedMenu = menuList.getSelectedItem().toString();
             String nr = selectedMenu.substring(0, selectedMenu.indexOf(" "));
-            int menuID = Integer.parseInt(nr); 
+            int menuID = Integer.parseInt(nr);
 
             String nameValue = nameRight.getText();
             String descriptionValue = descriptionRight.getText();
             long priceValue = 0;
             long prepTimeValue = 0;
 
-            if(!"".equals(timeRight.getText())) {
-            prepTimeValue = Long.parseLong(timeRight.getText());
+            if (!"".equals(timeRight.getText())) {
+                prepTimeValue = Long.parseLong(timeRight.getText());
             }
 
-            if(!"".equals(priceRight.getText())) {
-            priceValue = Long.parseLong(priceRight.getText());
+            if (!"".equals(priceRight.getText())) {
+                priceValue = Long.parseLong(priceRight.getText());
             }
 
-            if(!"".equals(nameValue) && !"".equals(descriptionValue) && !"".equals(timeRight) && !"".equals(priceRight)) {
-            int newProductNr = manager.createNewProduct(priceValue, menuID, nameValue, descriptionValue, prepTimeValue);
+            if (!"".equals(nameValue) && !"".equals(descriptionValue)
+                    && !"".equals(timeRight) && !"".equals(priceRight)) {
+                int newProductNr = manager.createNewProduct(priceValue, menuID,
+                        nameValue, descriptionValue, prepTimeValue);
 
-            List objs = ingredientList.getSelectedValuesList();
+                List objs = ingredientList.getSelectedValuesList();
 
-            frame.getContentPane().removeAll();
+                frame.getContentPane().removeAll();
 
-            JPanel panel = generateIngredientPanel(newProductNr, objs);
+                JPanel panel = generateIngredientPanel(newProductNr, objs);
 
-            frame.setContentPane(panel);
-            frame.validate();
-            frame.repaint();
+                frame.setContentPane(panel);
+                frame.validate();
+                frame.repaint();
             }
         }
     };

@@ -9,7 +9,8 @@ import businesslogic.OrderManager;
 
 /**
  * 
- * This class contains the main method. This method is used to create the OrderManager and the LoginGUI.
+ * This class contains the main method. This method is used to create the
+ * OrderManager and the LoginGUI.
  * 
  * 
  * @author Wesley Heesters
@@ -37,11 +38,12 @@ public class Main extends JFrame {
         frame.setSize(200, 275);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setTitle("Inloggen");
-        frame.setLocation(dim.width/2-frame.getSize().width/2, dim.height/2-frame.getSize().height/2);
+        frame.setLocation(dim.width / 2 - frame.getSize().width / 2, dim.height
+                / 2 - frame.getSize().height / 2);
 
         JPanel paneel = new LoginGUI(manager, frame);
         frame.setContentPane(paneel);
-        frame.setVisible( true );
+        frame.setVisible(true);
     }
 
 }

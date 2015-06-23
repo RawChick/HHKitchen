@@ -2,7 +2,8 @@ package domain;
 
 /**
  * 
- * This class contains the attributes for the ingredients of a product and their respective getters and setters.
+ * This class contains the attributes for the ingredients of a product and their
+ * respective getters and setters.
  * 
  * @author Wesley Heesters
  * @author Renée Vroedsteijn
@@ -22,13 +23,18 @@ public class ProductIngredients {
 
     /**
      * 
-     * @param ingredientNr Number of an ingredient.
-     * @param ingredientName Name of an ingredient.
-     * @param productNr Number of a product.
-     * @param quantity Quantity of an ingredient.
-     * @param unit Unit of an ingredient.
+     * @param ingredientNr
+     *            Number of an ingredient.
+     * @param ingredientName
+     *            Name of an ingredient.
+     * @param productNr
+     *            Number of a product.
+     * @param quantity
+     *            Quantity of an ingredient.
+     * @param unit
+     *            Unit of an ingredient.
      */
-    public ProductIngredients(int ingredientNr, String ingredientName, int productNr, int quantity, String unit){
+    public ProductIngredients(int ingredientNr, String ingredientName, int productNr, int quantity, String unit) {
         this.productNr = productNr;
         this.ingredientName = ingredientName;
         this.ingredientNr = ingredientNr;
@@ -36,7 +42,7 @@ public class ProductIngredients {
         this.unit = unit;
     }
 
-    public int getIngredientNr(){
+    public int getIngredientNr() {
         return ingredientNr;
     }
 
@@ -44,7 +50,7 @@ public class ProductIngredients {
         return ingredientName;
     }
 
-    public int getProductNr(){
+    public int getProductNr() {
         return productNr;
     }
 

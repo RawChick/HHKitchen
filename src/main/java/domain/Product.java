@@ -2,7 +2,8 @@ package domain;
 
 /**
  * 
- * This class contains the attributes for the products and their respective getters and setters.
+ * This class contains the attributes for the products and their respective
+ * getters and setters.
  * 
  * @author Wesley Heesters
  * @author Renée Vroedsteijn
@@ -20,10 +21,14 @@ public class Product {
 
     /**
      * 
-     * @param productNr Number of a product.
-     * @param name Name of a product.
-     * @param price Price of a product.
-     * @param preparationTime Preparation time of a product.
+     * @param productNr
+     *            Number of a product.
+     * @param name
+     *            Name of a product.
+     * @param price
+     *            Price of a product.
+     * @param preparationTime
+     *            Preparation time of a product.
      */
     public Product(int productNr, String name, long price, long preparationTime) {
         this.productNr = productNr;
@@ -32,7 +37,7 @@ public class Product {
         this.preparationTime = preparationTime;
     }
 
-    public long getPreparationTime(){
+    public long getPreparationTime() {
         return preparationTime;
     }
 

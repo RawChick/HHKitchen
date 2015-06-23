@@ -5,6 +5,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -20,7 +21,6 @@ import javax.swing.table.DefaultTableModel;
 import businesslogic.OrderManager;
 import domain.Product;
 import domain.ProductIngredients;
-
 
 /**
  * 
@@ -44,20 +44,18 @@ public class ChangeMealGUI extends JPanel {
     private int productNr;
     private JLabel nameLabel, ingredientLabel, timeLabel, priceLabel;
     private JTextField nameRight, timeRight, priceRightText;
-    String[] columnNames = {"Nr", "Ingredient", "Hoeveelheid", "Eenheid"};
+    String[] columnNames = { "Nr", "Ingredient", "Hoeveelheid", "Eenheid" };
 
     DefaultTableModel tableModel = new DefaultTableModel(columnNames, 0) {
-        /**
-         * 
-         */
+        
         private static final long serialVersionUID = 1L;
 
         @Override
         public boolean isCellEditable(int row, int column) {
-            if(column == 0 || column == 3) {
-            return false;
+            if (column == 0 || column == 3) {
+                return false;
             } else {
-            return true;
+                return true;
             }
         }
     };
@@ -76,17 +74,18 @@ public class ChangeMealGUI extends JPanel {
         setLayout(new BorderLayout(10, 10));
         setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-        ArrayList<ProductIngredients> productIngredients = manager.retrieveIngredients(productNr);
+        List<ProductIngredients> productIngredients = manager.retrieveIngredients(productNr);
 
-        for(ProductIngredients productIngredient: productIngredients) {
-        int ingredientNr = productIngredient.getIngredientNr();
-        String ingredientName = productIngredient.getIngredientName();
-        int ingredientQuantity = productIngredient.getQuantity();
-        String ingredientUnit = productIngredient.getUnit();
+        for (ProductIngredients productIngredient : productIngredients) {
+            int ingredientNr = productIngredient.getIngredientNr();
+            String ingredientName = productIngredient.getIngredientName();
+            int ingredientQuantity = productIngredient.getQuantity();
+            String ingredientUnit = productIngredient.getUnit();
 
-        Object[] data = {ingredientNr, ingredientName, ingredientQuantity, ingredientUnit};
+            Object[] data = { ingredientNr, ingredientName, ingredientQuantity,
+                    ingredientUnit };
 
-        tableModel.addRow(data);
+            tableModel.addRow(data);
         }
 
         table.getModel().addTableModelListener(tableModelListener);
@@ -116,7 +115,7 @@ public class ChangeMealGUI extends JPanel {
         priceLabel = new JLabel("Prijs in centen: ");
 
         long priceValue = product.getPrice();
-        priceRightText = new JTextField(priceValue+"");
+        priceRightText = new JTextField(priceValue + "");
 
         backButton = new JButton("Terug");
         backButton.addActionListener(buttonActionListener);
@@ -132,7 +131,7 @@ public class ChangeMealGUI extends JPanel {
         innercenter.setBorder(BorderFactory.createEmptyBorder(50, 0, 0, 0));
         innercenterwest.setLayout(new BorderLayout(10, 10));
         innercenterwest.setBorder(BorderFactory.createEmptyBorder(50, 0, 0, 0));
-        tablePanel.setLayout(new BorderLayout(10,10));
+        tablePanel.setLayout(new BorderLayout(10, 10));
         gridsouth.setLayout(new BorderLayout(10, 10));
         westsouth.setLayout(new BorderLayout(10, 10));
         innersouth.setLayout(new BorderLayout(10, 10));
@@ -173,7 +172,7 @@ public class ChangeMealGUI extends JPanel {
 
     ActionListener buttonActionListener = new ActionListener() {
         public void actionPerformed(ActionEvent e) {
-            createKitchenGUI();		
+            createKitchenGUI();
 
             System.out.println("Wijziging geannuleerd.");
         }
@@ -192,32 +191,26 @@ public class ChangeMealGUI extends JPanel {
         }
     };
 
-
     TableModelListener tableModelListener = new TableModelListener() {
         public void tableChanged(TableModelEvent e) {
             if (e.getType() == TableModelEvent.UPDATE) {
 
-            int row = table.getSelectedRow();
+                int row = table.getSelectedRow();
 
-            manager.updateIngredientSpecs(table, row, productNr);
+                manager.updateIngredientSpecs(table, row, productNr);
 
             }
         }
     };
 
-    public void createKitchenGUI(){
-
+    public void createKitchenGUI() {
 
         frame.getContentPane().removeAll();
         frame.setTitle("Keuken");
 
-        //Maakt steeds een nieuwe instantie aan als paneel wijzigt!
-
         JPanel paneel = new KitchenGUI(manager, frame);
-        frame.setContentPane(paneel);
         frame.validate();
         frame.repaint();
-
 
     }
 }
