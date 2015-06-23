@@ -39,14 +39,17 @@ public class DatabaseConnection {
     public boolean openConnection()
     {
         boolean result = false;
-
+        String ip = "jdbc:mysql://145.48.6.148/hartigehapivp4d";
+        String access = "root";
+        String pass = "10ec4u";
+        
         if(connection == null)
         {
             try
             {   
                 // Try to create a connection with the library database
                 connection = DriverManager.getConnection(
-                    "jdbc:mysql://145.48.6.148/hartigehapivp4d" , "root", "10ec4u");
+                    ip, access, pass);
 
                 if(connection != null)
                 {

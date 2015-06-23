@@ -45,13 +45,13 @@ public class LoginGUI extends JPanel {
 		setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		
 		JPanel north = new JPanel();
-		JPanel north_inner = new JPanel();
+		JPanel northinner = new JPanel();
 		JPanel south = new JPanel();
 		
 		north.setLayout(new BorderLayout(10, 10));
 		north.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		
-		north_inner.setLayout(new GridLayout(3, 3));
+		northinner.setLayout(new GridLayout(3, 3));
 		
 		south.setLayout(new FlowLayout(FlowLayout.TRAILING));
 		
@@ -64,7 +64,7 @@ public class LoginGUI extends JPanel {
 		for(i = 0; i < 9; i++) {
 			numbers[i] = new JButton(("789456123").substring(i, i+1));
 			
-			north_inner.add(numbers[i]);
+			northinner.add(numbers[i]);
 			
 			numbers[i].addActionListener(new ActionListener() {
 	            public void actionPerformed(ActionEvent e) {
@@ -80,7 +80,7 @@ public class LoginGUI extends JPanel {
             }
         });
 		
-		north.add(north_inner, BorderLayout.CENTER);
+		north.add(northinner, BorderLayout.CENTER);
 		north.add(numbers[9], BorderLayout.SOUTH);
 		
 		south.add(login);
@@ -92,9 +92,7 @@ public class LoginGUI extends JPanel {
 	
 	ActionListener loginActionEvent = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
-			/*if(employeeCode.getText().equals("1234")) {
-				alterInterface();
-			}*/
+			
 			
 			String employeeNumber = employeeCode.getText();
 			

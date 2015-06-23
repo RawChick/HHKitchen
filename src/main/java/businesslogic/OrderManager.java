@@ -373,7 +373,7 @@ public class OrderManager {
 	 * This method updates the ingredients for a specific product.
 	 * @param productNr A number to indicate which product is meant.
 	 */
-	public void updateIngredientSpecs(JTable table, int col, int row, int productNr) {
+	public void updateIngredientSpecs(JTable table, int row, int productNr) {
 		int ingredientNr = Integer.parseInt(table.getValueAt(row, 0).toString());
 		String name = (String) table.getValueAt(row, 1);        
 		int quantity = Integer.parseInt(table.getValueAt(row, 2).toString());

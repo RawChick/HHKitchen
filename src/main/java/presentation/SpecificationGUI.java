@@ -3,7 +3,6 @@ package presentation;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.Serializable;
@@ -17,9 +16,10 @@ import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import businesslogic.OrderManager;
 import domain.Product;
 import domain.ProductIngredients;
-import businesslogic.OrderManager;
+
 
 /**
  * 
@@ -56,7 +56,7 @@ public class SpecificationGUI extends JPanel implements Serializable{
 		setLayout(new BorderLayout(10, 10));
 		setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 		
-		String columnNames[] = {"Ingredient", "Hoeveelheid", "Eenheid"};
+		String[] columnNames = {"Ingredient", "Hoeveelheid", "Eenheid"};
 		DefaultTableModel tableModel = new DefaultTableModel(columnNames, 0) {
 			@Override
 			public boolean isCellEditable(int row, int column) {

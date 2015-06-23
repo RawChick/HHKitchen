@@ -69,7 +69,7 @@ public class ProductDAO {
 	public boolean removeProduct(int productNr) {
 		boolean result = false;
 
-		//if (productToBeRemoved != null) {
+		
 			// First open the database connection.
 			DatabaseConnection connection = new DatabaseConnection();
 			if (connection.openConnection()) {

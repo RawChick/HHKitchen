@@ -52,10 +52,12 @@ public class NewMealGUI extends JPanel {
 	private String[] menuItems = { "1 Voorgerechten", "2 Soepen", "3 Hoofdgerechten", "4 Nagerechten", "6 Erbij", "7 Salades", "8 Pizza" };
 	private JComboBox menuList = new JComboBox(menuItems);
 	private List<ArrayList> allElements = new ArrayList<ArrayList>();
-	
+	private Font font1 = new Font("Arial", Font.BOLD, 20);
+		
 	public NewMealGUI(OrderManager manager, JFrame frame) {
 		this.manager = manager;
 		this.frame = frame;
+		
 		
 		createNewMealGUI();
 	}
@@ -89,10 +91,10 @@ public class NewMealGUI extends JPanel {
 		southNorth.setBorder(BorderFactory.createEmptyBorder(20, 0, 0, 0));
 		
 		panelTitle = new JLabel("Gerecht toevoegen");
-		panelTitle.setFont(new Font("Arial", Font.BOLD, 20));
+		panelTitle.setFont(font1);
 		
 		ingredientTitle = new JLabel("Kies ingrediënten");
-		ingredientTitle.setFont(new Font("Arial", Font.BOLD, 16));
+		ingredientTitle.setFont(font1);
 		
 		name = new JLabel("Gerechtnaam:");
 		description = new JLabel("Beschrijving:");
@@ -176,14 +178,14 @@ public class NewMealGUI extends JPanel {
 		south.setLayout(new FlowLayout(FlowLayout.TRAILING));
 		
 		panelTitle = new JLabel("Ingrediënten specificeren");
-		panelTitle.setFont(new Font("Arial", Font.BOLD, 20));
+		panelTitle.setFont(font1);
 		
 		centerInner.add(new JLabel("Naam"));
 		centerInner.add(new JLabel("Hoeveelheid"));
 		centerInner.add(new JLabel("Eenheid"));
 		
 		for(Object object: selectedIngredients) {
-			String ingredientName[] = object.toString().split(" - ");
+			String[] ingredientName = object.toString().split(" - ");
 			int ingredientNr = Integer.parseInt(ingredientName[0]);
 			
 			JLabel label = new JLabel(ingredientName[1]);
@@ -281,15 +283,15 @@ public class NewMealGUI extends JPanel {
 			long priceValue = 0;
 			long prepTimeValue = 0;
 			
-			if(!timeRight.getText().equals("")) {
+			if(!"".equals(timeRight.getText())) {
 				prepTimeValue = Long.parseLong(timeRight.getText());
 			}
 			
-			if(!priceRight.getText().equals("")) {
+			if(!"".equals(priceRight.getText())) {
 				priceValue = Long.parseLong(priceRight.getText());
 			}
 			
-			if(!nameValue.equals("") && !descriptionValue.equals("") && !timeRight.equals("") && !priceRight.equals("")) {
+			if(!"".equals(nameValue) && !"".equals(descriptionValue) && !"".equals(timeRight) && !"".equals(priceRight)) {
 				int newProductNr = manager.createNewProduct(priceValue, menuID, nameValue, descriptionValue, prepTimeValue);
 				
 				List objs = ingredientList.getSelectedValuesList();

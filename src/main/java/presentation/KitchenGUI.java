@@ -2,10 +2,10 @@ package presentation;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Timer;
 import java.util.TimerTask;
 
 import javax.swing.BorderFactory;
@@ -20,9 +20,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.ListSelectionModel;
-
-import java.util.Timer;
-
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -30,6 +27,7 @@ import businesslogic.OrderManager;
 import domain.Order;
 import domain.OrderRow;
 import domain.Product;
+
 
 /**
  * 
@@ -151,7 +149,7 @@ public class KitchenGUI extends JPanel {
 				addNewOrders();
 
 			}
-		}, 10*1000, 10*1000);
+		}, 10*1000L, 10*1000L);
 		
 		westNorth.add(new JLabel("Nieuw:"));
 		westNorth.add(newOrderPane);
@@ -263,8 +261,7 @@ public class KitchenGUI extends JPanel {
 		acceptOrder.setEnabled(false);
 		specificationMeal.setEnabled(false);
 		ready.setEnabled(false);
-		//changeMeal.setEnabled(false);
-		//deleteMeal.setEnabled(false);
+	
 		
 		if(!mealList.isSelectionEmpty()){
 			specificationMeal.setEnabled(true);

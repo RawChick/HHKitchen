@@ -42,9 +42,9 @@ public class ChangeMealGUI extends JPanel {
 	private JFrame frame;
 	private JButton backButton, updateButton;
 	private int productNr;
-	private JLabel name, ingredient, time, price;
+	private JLabel nameLabel, ingredientLabel, timeLabel, priceLabel;
 	private JTextField nameRight, timeRight, priceRightText;
-	String columnNames[] = {"Nr", "Ingredient", "Hoeveelheid", "Eenheid"};
+	String[] columnNames = {"Nr", "Ingredient", "Hoeveelheid", "Eenheid"};
 	
 	DefaultTableModel tableModel = new DefaultTableModel(columnNames, 0) {
 		/**
@@ -109,11 +109,11 @@ public class ChangeMealGUI extends JPanel {
 		long prepTime = product.getPreparationTime();
 
 		timeRight = new JTextField(prepTime + "");
-		name = new JLabel("Gerechtnaam:");
+		nameLabel = new JLabel("Gerechtnaam:");
 		nameRight = new JTextField(product.getName());
-		ingredient = new JLabel("Ingrediënten:");
-		time = new JLabel("Bereidingstijd:");
-		price = new JLabel("Prijs in centen: ");
+		ingredientLabel = new JLabel("Ingrediënten:");
+		timeLabel = new JLabel("Bereidingstijd:");
+		priceLabel = new JLabel("Prijs in centen: ");
 
 		long priceValue = product.getPrice();
 		priceRightText = new JTextField(priceValue+"");
@@ -142,8 +142,8 @@ public class ChangeMealGUI extends JPanel {
 		innerwestsouth.setLayout(new BorderLayout(10, 10));
 		innerwestsouth.setBorder(BorderFactory.createEmptyBorder(0, 0, 20, 0));
 
-		north.add(name, BorderLayout.WEST);
-		innercenterwest.add(ingredient);
+		north.add(nameLabel, BorderLayout.WEST);
+		innercenterwest.add(ingredientLabel);
 		west.add(innercenterwest);
 
 		south.add(updateButton, BorderLayout.WEST);
@@ -159,8 +159,8 @@ public class ChangeMealGUI extends JPanel {
 		westsouth.add(innerwestsouth, BorderLayout.SOUTH);
 		innersouth.add(timeRight, BorderLayout.NORTH);
 
-		innerwestsouth.add(time, BorderLayout.NORTH);
-		innerwestsouth.add(price, BorderLayout.SOUTH);
+		innerwestsouth.add(timeLabel, BorderLayout.NORTH);
+		innerwestsouth.add(priceLabel, BorderLayout.SOUTH);
 		innersouth.add(priceRightText, BorderLayout.SOUTH);
 		west.add(westsouth);
 		center.add(gridsouth);
@@ -170,11 +170,6 @@ public class ChangeMealGUI extends JPanel {
 		add(center, BorderLayout.CENTER);
 		add(south, BorderLayout.SOUTH);
 	}
-
-	public void upDateIngredients(){
-		
-	}
-	
 	
 	ActionListener buttonActionListener = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
@@ -201,11 +196,11 @@ public class ChangeMealGUI extends JPanel {
 	TableModelListener tableModelListener = new TableModelListener() {
 		public void tableChanged(TableModelEvent e) {
 			if (e.getType() == TableModelEvent.UPDATE) {
-				int col = table.getSelectedColumn();
+			
 				int row = table.getSelectedRow();
 				
-				manager.updateIngredientSpecs(table, col, row, productNr);
-				System.out.println(col + row);
+				manager.updateIngredientSpecs(table, row, productNr);
+				
 			}
 		}
 	};

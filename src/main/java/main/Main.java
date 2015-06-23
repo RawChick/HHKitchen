@@ -41,7 +41,6 @@ public class Main extends JFrame {
         
         JPanel paneel = new LoginGUI(manager, frame);
         frame.setContentPane(paneel);
-        //frame.getContentPane().setBackground(new Color(238, 238, 238));
         frame.setVisible( true );
 	}
 
