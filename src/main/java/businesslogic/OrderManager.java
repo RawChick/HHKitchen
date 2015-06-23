@@ -94,7 +94,7 @@ public class OrderManager {
      * This method calls a method from the ProductIngredientsDAO to retrieve all
      * ingredients from a specific product from the database.
      * 
-     * @param productNr 
+     * @param productNr
      *            The number of a product.
      * @return The ingredients of a product.
      */
@@ -162,18 +162,19 @@ public class OrderManager {
         }
 
         for (OrderRow orderRow : orderRows) {
+            int productID = 0, amount = 0, ingredientID = 0, quantity = 0;
+            
             if (orderRow.getOrderNr() == orderNr) {
-                int productID = orderRow.getProductNr();
-                int amount = orderRow.getAmount();
-                int ingredientID, quantity;
+                productID = orderRow.getProductNr();
+                amount = orderRow.getAmount();
+            }
 
-                for (ProductIngredients pI : productIngredients) {
-                    if (pI.getProductNr() == productID) {
-                        ingredientID = pI.getIngredientNr();
-                        quantity = amount * pI.getQuantity();
+            for (ProductIngredients pI : productIngredients) {
+                if (pI.getProductNr() == productID) {
+                    ingredientID = pI.getIngredientNr();
+                    quantity = amount * pI.getQuantity();
 
-                        ingredientDAO.updateInventory(ingredientID, quantity);
-                    }
+                    ingredientDAO.updateInventory(ingredientID, quantity);
                 }
             }
         }
@@ -197,9 +198,6 @@ public class OrderManager {
                 if (result == true) {
                     order.setStatus(4);
                 }
-
-                System.out.println("Ordernr: " + order.getOrderNr()
-                        + ", status: " + order.getStatus());
             }
         }
         return result;
@@ -363,7 +361,6 @@ public class OrderManager {
                     p.setPrice(price);
                 }
             }
-            System.out.println("Product gewijzigd.");
         }
 
         return result;
@@ -408,7 +405,11 @@ public class OrderManager {
         boolean result = productDAO.removeProduct(productNr);
 
         if (result == true) {
-            System.out.println("Product verwijderd.");
+            for(Product p: products) {
+                if(p.getProductNr() == productNr) {
+                    products.remove(p);
+                }
+            }
         }
         return result;
     }
