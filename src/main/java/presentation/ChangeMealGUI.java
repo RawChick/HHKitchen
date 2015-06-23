@@ -1,9 +1,7 @@
 package presentation;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -19,9 +17,10 @@ import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 
+import businesslogic.OrderManager;
 import domain.Product;
 import domain.ProductIngredients;
-import businesslogic.OrderManager;
+
 
 /**
  * 
@@ -35,6 +34,10 @@ import businesslogic.OrderManager;
  */
 
 public class ChangeMealGUI extends JPanel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private OrderManager manager;
 	private JFrame frame;
 	private JButton backButton, updateButton;
@@ -44,6 +47,11 @@ public class ChangeMealGUI extends JPanel {
 	String columnNames[] = {"Nr", "Ingredient", "Hoeveelheid", "Eenheid"};
 	
 	DefaultTableModel tableModel = new DefaultTableModel(columnNames, 0) {
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
 		@Override
 		public boolean isCellEditable(int row, int column) {
 			if(column == 0 || column == 3) {
@@ -203,7 +211,7 @@ public class ChangeMealGUI extends JPanel {
 	};
 	
 	public void createKitchenGUI(){
-		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+		
 
 		frame.getContentPane().removeAll();
 		frame.setTitle("Keuken");

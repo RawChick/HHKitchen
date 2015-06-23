@@ -4,9 +4,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import javax.swing.JTable;
-
 import domain.ProductIngredients;
+
 
 /**
  * 
@@ -49,7 +48,7 @@ public class ProductIngredientsDAO {
 			if (resultset != null) {
 				try {
 					while (resultset.next()) {
-						boolean sameIngredient = false;
+					
 						
 						int ingredientNrFromDb = resultset.getInt("food_ID");
 						String ingredientNameFromDb = resultset.getString("name");

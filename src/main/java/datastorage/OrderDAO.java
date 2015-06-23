@@ -52,7 +52,7 @@ public class OrderDAO {
 					}
 				} catch (SQLException e) {
 					System.out.println(e);
-					Order order = null;
+					orders = null;
 				}
 			}
 			// else an error occurred leave 'member' to null.

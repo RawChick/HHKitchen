@@ -32,6 +32,10 @@ import businesslogic.OrderManager;
  */
 
 public class SpecificationGUI extends JPanel{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private OrderManager manager;
 	private JFrame frame;
 	private JButton backButton;
@@ -121,7 +125,7 @@ public class SpecificationGUI extends JPanel{
 	
 	ActionListener buttonActionListener = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
-			Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+		
 			
 			frame.getContentPane().removeAll();
 			frame.setTitle("Keuken");

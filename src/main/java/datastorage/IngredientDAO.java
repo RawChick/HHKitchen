@@ -32,7 +32,7 @@ public class IngredientDAO {
 		if (connection.openConnection()) {
 			// If a connection was successfully setup, execute the UPDATE statement.
 			
-			boolean result = connection.executeSQLUpdateStatement("UPDATE food SET stock = stock-"+quantity+" WHERE ID = "+ingredientNr);
+		connection.executeSQLUpdateStatement("UPDATE food SET stock = stock-"+quantity+" WHERE ID = "+ingredientNr);
 
 			// We had a database connection opened. Since we're finished, we need to close it.
 			connection.closeConnection();

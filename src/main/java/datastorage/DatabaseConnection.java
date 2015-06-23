@@ -203,9 +203,9 @@ public class DatabaseConnection {
     
     public int executeSQLInsertStatement(String query, int id)
     {
-    	int insertId = 0;
+    	
     	int newProductNr = 0;
-        boolean result = false;
+
         
         // First, check whether a some query was passed and the connection with
         // the database.
@@ -214,8 +214,8 @@ public class DatabaseConnection {
             // Then, if succeeded, execute the query.
             try
             {
-                insertId = statement.executeUpdate(query, Statement.RETURN_GENERATED_KEYS);
-                result = true;
+               statement.executeUpdate(query, Statement.RETURN_GENERATED_KEYS);
+            
                 
                 ResultSet rs = statement.getGeneratedKeys();
             	rs.next();
@@ -224,7 +224,7 @@ public class DatabaseConnection {
             catch(SQLException e)
             {
                 System.out.println(e);
-                result = false;
+
             }
         }
         

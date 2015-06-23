@@ -37,6 +37,10 @@ import domain.Ingredient;
  */
 
 public class NewMealGUI extends JPanel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private OrderManager manager;
 	private JFrame frame;
 	private JButton backButton, updateButton;

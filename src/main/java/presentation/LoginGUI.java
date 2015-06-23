@@ -19,6 +19,10 @@ import businesslogic.OrderManager;
  */
 
 public class LoginGUI extends JPanel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private OrderManager manager;
 	private JFrame frame;
 	

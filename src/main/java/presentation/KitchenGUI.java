@@ -43,6 +43,10 @@ import domain.Product;
  */
 
 public class KitchenGUI extends JPanel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private OrderManager manager;
 	private JFrame frame;
 	
@@ -458,8 +462,7 @@ public class KitchenGUI extends JPanel {
 	
 	
 	public void specificationMenu(int productNr) {
-		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-		
+				
 		frame.getContentPane().removeAll();
 		frame.setTitle("Gerechtspecificaties");
 				
@@ -472,7 +475,7 @@ public class KitchenGUI extends JPanel {
 	}
 	
 	public void newMealMenu() {
-		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+	
 
 		frame.getContentPane().removeAll();
 		frame.setTitle("Gerecht toevoegen");
@@ -487,7 +490,7 @@ public class KitchenGUI extends JPanel {
 	}
 	
 	public void changeMealMenu(int productNr) {
-		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+	
 
 		frame.getContentPane().removeAll();
 		frame.setTitle("Gerecht wijzigen");
