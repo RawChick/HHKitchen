@@ -129,8 +129,10 @@ public class KitchenGUI extends JPanel {
         setButtonEnabled();
 
         newOrderList.setFixedCellHeight(25);
+        newOrderList.setFixedCellWidth(100);
         acceptedOrderList.setFixedCellHeight(25);
-
+        acceptedOrderList.setFixedCellWidth(100);
+        
         newOrderList
                 .setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
         newOrderList.setLayoutOrientation(JList.VERTICAL);
@@ -151,9 +153,9 @@ public class KitchenGUI extends JPanel {
             @Override
             public void run() {
                 addNewOrders();
-
+                removeCancelledOrders();
             }
-        }, 10 * 1000L, 10 * 1000L);
+        }, 5 * 1000L, 5 * 1000L);
 
         westNorth.add(new JLabel("Nieuw:"));
         westNorth.add(newOrderPane);

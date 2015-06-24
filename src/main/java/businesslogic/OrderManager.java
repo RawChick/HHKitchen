@@ -156,8 +156,6 @@ public class OrderManager {
                     order.setStatus(2);
                 }
 
-                System.out.println("Ordernr: " + order.getOrderNr()
-                        + ", status: " + order.getStatus());
             }
         }
 
