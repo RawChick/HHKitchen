@@ -57,6 +57,30 @@ public class OrderManager {
         productIngredientsDAO = new ProductIngredientsDAO();
         ingredientDAO = new IngredientDAO();
     }
+    
+    /**
+     * This method was generated for the Junit testcase TestRetrieveIngredients and specifies a to be used DAO
+     * @param productIngredientsDAO
+     */
+    public void setProductIngredientsDAO(ProductIngredientsDAO productIngredientsDAO) {
+        this.productIngredientsDAO = productIngredientsDAO;
+    }
+    
+    /**
+     * This method was generated for the Junit testcase TestUpdateProduct and specifies a to be used DAO
+     * @param productDAO
+     */
+    public void setProductDAO(ProductDAO productDAO) {
+        this.productDAO = productDAO;
+    }
+    
+    /**
+     * This method was generated for the JUnit testcase and inserts values into the productIngredients ArrayList
+     * @param pI
+     */
+    public void addProductIngredients(ProductIngredients pI) {
+        productIngredients.add(pI);
+    }
 
     /**
      * This method calls a method from the OrderDAO to retrieve all orders from
