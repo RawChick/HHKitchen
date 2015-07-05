@@ -22,8 +22,7 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/Thomas/Downloads/mysql-connector-java-5.1.11-bin.jar"/>
-	<classpathentry kind="lib" path="C:/Program Files (x86)/Eclipse/plugins/org.junit_4.11.0.v201303080030/junit.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Thomas/Downloads/hamcrest-all-1.3.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Renée/Downloads/mysql-connector-java-5.1.11-bin.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
